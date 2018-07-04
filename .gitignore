@@ -1,0 +1,8 @@
+/target/
+/META-INF/
+.project
+.metadata/
+.classpath
+.settings
+/.recommenders/
+
