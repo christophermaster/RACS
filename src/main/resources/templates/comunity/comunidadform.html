@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Reconocimiento de placa</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+ <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+<div class="container">
+   	 <hr/>
+
+
+    <div class="flex-center flex-column">
+        <h2>Modificar Datos</h2>
+      <br/>
+        <form class="form-horizontal" th:object="${comunidad}" th:action="@{/comunidad}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            
+            <div class="form-group">
+                <label class="col-sm-6 control-label">Nombre Comunidad:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" th:field="*{nameComunity}" required = "required"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-6 control-label">Tipo comunidad:</label>
+                <div class="col-sm-6">
+                    <input      name="nombre" type="text" class="form-control" th:field="*{typeComunity}" required="required"/>
+                </div>
+            </div>
+            <br/>
+            <div class="flex-center flex-column">
+                <button type="submit" class="btn btn-default">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

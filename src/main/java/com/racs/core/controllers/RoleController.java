@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.racs.commons.bean.Notification;
 import com.racs.commons.exception.SisDaVyPException;
-import com.racs.core.entities.RoleUser;
-import com.racs.core.services.RoleUserService;
+import com.racs.core.entities.Roles;
+import com.racs.core.services.RoleService;
 
 /**
  * @author team disca
@@ -20,14 +20,14 @@ import com.racs.core.services.RoleUserService;
  */
 
 @Controller
-public class RoleUserController {
+public class RoleController {
 
-    private RoleUser roleApp;
-    private RoleUserService rolService;
+    private Roles roleApp;
+    private RoleService rolService;
     private Notification notification;
 
     @Autowired
-    public void setRolService(RoleUserService rolService) {
+    public void setRolService(RoleService rolService) {
         this.rolService = rolService;
     }
 
@@ -79,7 +79,7 @@ public class RoleUserController {
      */
     @RequestMapping("/sso/rol/new")
     public String newRol(Model model) {
-        model.addAttribute("rol", new RoleUser());
+        model.addAttribute("rol", new Roles());
         return "rolform";
     }
 
@@ -90,7 +90,7 @@ public class RoleUserController {
      * @return
      */
     @RequestMapping(value = "/sso/rol", method = RequestMethod.POST)
-    public String saveRol(RoleUser rol) {
+    public String saveRol(Roles rol) {
     	try {
 			rolService.saveRol(rol);
 		} catch (SisDaVyPException e) {

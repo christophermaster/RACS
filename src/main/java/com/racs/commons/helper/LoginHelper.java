@@ -16,7 +16,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.racs.commons.exception.SisDaVyPException;
 import com.racs.core.entities.User;
-import com.racs.core.services.UserSsoService;
+import com.racs.core.services.UserService;
 
 /**
  * Clase que permite apoyar las acciones y opciones que se generan <br>
@@ -37,9 +37,9 @@ public class LoginHelper {
 	private String domainAD;
 
 	@Autowired
-	private UserSsoService userSsoService1;
+	private UserService userSsoService1;
 	
-	public User findUserSsoOnDb(final UserSsoService userSsoService, String usernameCredential, HttpSession session)
+	public User findUserSsoOnDb(final UserService userSsoService, String usernameCredential, HttpSession session)
 			throws UsernameNotFoundException {
 		User result = new User();
 		log.info("\n Usuario a Consultar: " + usernameCredential);
@@ -93,11 +93,11 @@ public class LoginHelper {
 	}
 
 	//Getter & Setter
-	public UserSsoService getUserSsoService() {
+	public UserService getUserSsoService() {
 		return userSsoService1;
 	}
 
-	public void setUserSsoService(UserSsoService userSsoService) {
+	public void setUserSsoService(UserService userSsoService) {
 		this.userSsoService1 = userSsoService;
 	}
 

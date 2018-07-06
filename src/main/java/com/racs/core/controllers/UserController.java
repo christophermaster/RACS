@@ -25,11 +25,11 @@ import com.racs.commons.RolType;
 import com.racs.commons.bean.HashGenerator;
 import com.racs.commons.bean.Notification;
 import com.racs.commons.exception.SisDaVyPException;
-import com.racs.core.entities.RoleUser;
+import com.racs.core.entities.Roles;
 import com.racs.core.entities.User;
 import com.racs.core.services.MailSenderService;
-import com.racs.core.services.RoleUserService;
-import com.racs.core.services.UserSsoService;
+import com.racs.core.services.RoleService;
+import com.racs.core.services.UserService;
 
 /**
  * @author team disca
@@ -38,29 +38,29 @@ import com.racs.core.services.UserSsoService;
  * usuarios y sus aplicaciones. 18/03/2018
  */
 @Controller(value="UserSsoController")
-public class UserSsoController {
+public class UserController {
 
     
     private User userSsoRef;
 	private HashGenerator hashGenerator = new HashGenerator();
-	private RoleUser roleAppRef;
+	private Roles roleAppRef;
 	private Notification notification;
 	
 	private List<User> listUserSsoRef;
-	private Set<RoleUser> listRoleAppRef;
+	private Set<Roles> listRoleAppRef;
 	
 	//Services
-	private UserSsoService userSsoService;
-	private RoleUserService roleAppService;
+	private UserService userSsoService;
+	private RoleService roleAppService;
 	private MailSenderService mailSenderService;
 
 	@Autowired
-	public void setUserSsoService(UserSsoService userSsoService) {
+	public void setUserSsoService(UserService userSsoService) {
 		this.userSsoService = userSsoService;
 	}
 
 	@Autowired
-	public void setRoleAppService(RoleUserService roleAppService) {
+	public void setRoleAppService(RoleService roleAppService) {
 		this.roleAppService = roleAppService;
 	}
 
@@ -155,7 +155,7 @@ public class UserSsoController {
 			//Si el usuario tiene Id quiere decir que se trata de una edicion
 			if(userSso.getId() != null){
 				userSsoRef = userSsoService.findUserSsoByUsername(userSso.getUsername());
-				userSso.setRoles(userSsoRef.getRoles());
+				userSso.setRols(userSsoRef.getRols());
 				if(userSso.isAdmin()){
 					userSso.setEnabled(Boolean.TRUE);
 				}
@@ -217,6 +217,23 @@ public class UserSsoController {
 		model.addAttribute("usersSso", listUserSsoRef);
 		return "usuarios";
 	}
+	
+	/**
+	 * Metodo que permite consultar un usuario y la gestion de sus aplicaciones.
+	 * 
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/sso/usuario/{id}/ver")
+	public String verUsuariosAplicaciones(@PathVariable Long id, Model model) {
+		userSsoRef = new User();
+		userSsoRef = userSsoService.getUserSsoById(id);
+		model.addAttribute("userSso", userSsoRef);// usuarioshow
+		notification = new Notification();
+		return "usuarioshow";
+	}
+	
 
 	// USUARIO-APLICACION-ROLE
 	/**
@@ -231,14 +248,14 @@ public class UserSsoController {
 	public String verRolesAplicacionesUsuario(@PathVariable Long id, @PathVariable Long appId, Model model) {
 		// Usuario
 		userSsoRef = new User();
-		listRoleAppRef = new HashSet<RoleUser>();
-		roleAppRef = new RoleUser();
-		Set<RoleUser> listVinculadas = new HashSet<>();
+		listRoleAppRef = new HashSet<Roles>();
+		roleAppRef = new Roles();
+		Set<Roles> listVinculadas = new HashSet<>();
 
 		userSsoRef = userSsoService.getUserSsoById(id);
-		Iterable<RoleUser> iter = userSsoRef.getRoles();
+		Iterable<Roles> iter = userSsoRef.getRols();
 		
-		for (RoleUser roleApp : iter) {
+		for (Roles roleApp : iter) {
 			//roleApp.setAplicationClient(applicationClientRef);
 			listVinculadas.add(roleApp);
 		}
@@ -259,18 +276,18 @@ public class UserSsoController {
 	 * @return
 	 */
 	@RequestMapping(value = "/sso/usuario/aplicacion/rol/vincular", method = RequestMethod.POST)
-	public String saveRolUsuario(RoleUser rol, Model model) {
+	public String saveRolUsuario(Roles rol, Model model) {
 		userSsoRef = new User();
 		listRoleAppRef = new HashSet<>();
-		Set<RoleUser> listVinculadas = new HashSet<>();
-		roleAppRef = new RoleUser();
+		Set<Roles> listVinculadas = new HashSet<>();
+		roleAppRef = new Roles();
 		notification = null;
 		Boolean existeRol = Boolean.FALSE;
 
 		//userSsoRef = userSsoService.getUserSsoById(rol.getAplicationClient().getUserSso().getId());
 		
-		Iterable<RoleUser> iter1 = userSsoRef.getRoles();
-		for (RoleUser roleApp : iter1) {
+		Iterable<Roles> iter1 = userSsoRef.getRols();
+		for (Roles roleApp : iter1) {
 			if (roleApp.getId().equals(rol.getId())) {
 				existeRol = Boolean.TRUE;
 				notification = new Notification();
@@ -290,8 +307,8 @@ public class UserSsoController {
 			}		
 		}
 		
-		Iterable<RoleUser> iter = userSsoRef.getRoles();
-		for (RoleUser roleApp : iter) {
+		Iterable<Roles> iter = userSsoRef.getRols();
+		for (Roles roleApp : iter) {
 			//roleApp.setAplicationClient(applicationClientRef);
 			listVinculadas.add(roleApp);
 		}
@@ -320,9 +337,9 @@ public class UserSsoController {
 	@RequestMapping("/sso/usuario/{idUser}/aplicacion/{idApp}/rol/delete/{id}")
 	public String deleteRolUsuario(@PathVariable Long idUser, @PathVariable Long idApp, @PathVariable Long id, Model model) {
 		userSsoRef = new User();
-		roleAppRef = new RoleUser();
+		roleAppRef = new Roles();
 		listRoleAppRef = new HashSet<>();
-		Set<RoleUser> listVinculadas = new HashSet<>();
+		Set<Roles> listVinculadas = new HashSet<>();
 		
 		try {
 			userSsoRef = userSsoService.getUserSsoById(idUser);
@@ -365,11 +382,11 @@ public class UserSsoController {
 	 * @return
 	 */
 	@RequestMapping(value = "/sso/usuario/aplicacion/rol/guardar", method = RequestMethod.POST)
-	public String saveRolEditAplicacion(RoleUser rol, Model model) {
+	public String saveRolEditAplicacion(Roles rol, Model model) {
 		userSsoRef = new User();
 		listRoleAppRef = new HashSet<>();
-		Set<RoleUser> listVinculadas = new HashSet<>();
-		roleAppRef = new RoleUser();
+		Set<Roles> listVinculadas = new HashSet<>();
+		roleAppRef = new Roles();
 		notification = null;
 		Boolean existeRol = Boolean.FALSE;
 		
@@ -391,8 +408,8 @@ public class UserSsoController {
 				notification.alert("1", "ERROR", e.getMensaje());
 			}
 			
-			Iterable<RoleUser> iter = userSsoRef.getRoles();
-			for (RoleUser roleApp : iter) {
+			Iterable<Roles> iter = userSsoRef.getRols();
+			for (Roles roleApp : iter) {
 				//roleApp.setAplicationClient(applicationClientRef);
 				listVinculadas.add(roleApp);
 			}
@@ -422,7 +439,7 @@ public class UserSsoController {
 	@RequestMapping("/sso/usuario/{userId}/aplicacion/{appId}/rol/edit/{id}")
 	public String editarRolAplicacionCliente(@PathVariable Long userId, @PathVariable Long appId, @PathVariable Long id, Model model) {
 
-		roleAppRef = new RoleUser();
+		roleAppRef = new Roles();
 		userSsoRef = new User();
 
 		roleAppRef = roleAppService.getRolById(id);

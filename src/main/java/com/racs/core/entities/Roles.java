@@ -15,8 +15,8 @@ import java.util.List;
 
 @Entity
 //@Table(name = "roles_users", uniqueConstraints = @UniqueConstraint(columnNames = { "aplication_client_id", "name" }))
-@Table(name = "roles_users")
-public class RoleUser implements Serializable {
+@Table(name = "roles")
+public class Roles implements Serializable {
 
 	/**
 	 * 
@@ -53,7 +53,7 @@ public class RoleUser implements Serializable {
 	/*@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "roleApp")
 	private List<FunctionalityRole> functionalityRoles = new ArrayList<>();*/
 
-	@ManyToMany(mappedBy = "roles")
+	@ManyToMany(mappedBy = "rols")
 	private List<User> users = new ArrayList<>();
 
 	// Gestion de la relacion *ToMany
@@ -69,21 +69,21 @@ public class RoleUser implements Serializable {
 
 	public void addUserSso(User user) {
 		users.add(user);
-		user.getRoles().add(this);
+		user.getRols().add(this);
 	}
 
 	public void removeUserSso(User user) {
 		users.remove(user);
-		user.getRoles().remove(this);
+		user.getRols().remove(this);
 	}
 
 	// Constructores
-	public RoleUser() {
+	public Roles() {
 		
 	}
 	
 	
-	public RoleUser(Long id, String name, String type, Boolean enabled, Date creationDate, Date lastUpdateDate,
+	public Roles(Long id, String name, String type, Boolean enabled, Date creationDate, Date lastUpdateDate,
 			String creatorUser, String lastUserUpdater, List<User> users) {
 		super();
 		this.id = id;
@@ -217,9 +217,9 @@ public class RoleUser implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof RoleUser))
+		if (!(obj instanceof Roles))
 			return false;
-		RoleUser other = (RoleUser) obj;
+		Roles other = (Roles) obj;
 		if (creationDate == null) {
 			if (other.creationDate != null)
 				return false;

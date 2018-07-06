@@ -5,7 +5,7 @@ import java.util.List;
 import com.racs.commons.exception.SisDaVyPException;
 import com.racs.core.entities.User;
 
-public interface UserSsoService {
+public interface UserService {
 
     List<User> listUsersSso();
 

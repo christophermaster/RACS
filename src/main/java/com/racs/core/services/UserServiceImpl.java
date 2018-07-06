@@ -15,16 +15,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.racs.commons.exception.SisDaVyPException;
-import com.racs.core.entities.RoleUser;
+import com.racs.core.entities.Roles;
 import com.racs.core.entities.User;
-import com.racs.core.repositories.UserSsoRepository;
+import com.racs.core.repositories.UserRepository;
 
 @Service
-public class UserSsoServiceImpl implements UserSsoService {
+public class UserServiceImpl implements UserService {
 
-	private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(UserSsoServiceImpl.class);
+	private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(UserServiceImpl.class);
 
-	private UserSsoRepository userSsoRepository;
+	private UserRepository userSsoRepository;
 	private User userSsoSupport;
 
 	@Value("${spring.datasource.url}")
@@ -51,7 +51,7 @@ public class UserSsoServiceImpl implements UserSsoService {
 	}
 
 	@Autowired
-	public void setUserSsoRepository(UserSsoRepository userSsoRepository) {
+	public void setUserSsoRepository(UserRepository userSsoRepository) {
 		this.userSsoRepository = userSsoRepository;
 	}
 
@@ -98,7 +98,7 @@ public class UserSsoServiceImpl implements UserSsoService {
 	public User findUserSsoByUsername(String username) {
 		userSsoSupport = new User();
 		try {
-			TypedQuery<User> query = em.createQuery("SELECT us FROM UserSso us WHERE us.username =  :username  and us.enabled = true",
+			TypedQuery<User> query = em.createQuery("SELECT us FROM User us WHERE us.username =  :username  and us.enabled = true",
 					User.class);
 			userSsoSupport = query.setParameter("username", username.trim()).getSingleResult();
 		} catch (Exception e) {
@@ -111,14 +111,14 @@ public class UserSsoServiceImpl implements UserSsoService {
 	public Boolean isAdminSsoUser(String username) {
 		userSsoSupport = null;
 		Boolean result = Boolean.FALSE;
-		Set<RoleUser> listaRoles = null;
+		Set<Roles> listaRoles = null;
 		try {
 			//TODO mejorar consulta
-			TypedQuery<User> query = em.createQuery("SELECT us FROM UserSso us WHERE us.username =  :username  and us.enabled = true",
+			TypedQuery<User> query = em.createQuery("SELECT us FROM User us WHERE us.username =  :username  and us.enabled = true",
 					User.class);
 			userSsoSupport = query.setParameter("username", username.trim()).getSingleResult();
-			listaRoles = userSsoSupport.getRoles();
-			for (RoleUser role : listaRoles ) {
+			listaRoles = userSsoSupport.getRols();
+			for (Roles role : listaRoles ) {
 				//TODO CLASE CONSTANTE
 				if(role.getName().equals("ADMIN_SSO")){
 					result = Boolean.TRUE;
@@ -135,7 +135,7 @@ public class UserSsoServiceImpl implements UserSsoService {
 	public User findUserSsoByToken(String token) {
 		userSsoSupport = new User();
 		try {
-			TypedQuery<User> query = em.createQuery("SELECT us FROM UserSso us WHERE us.token =  :token",
+			TypedQuery<User> query = em.createQuery("SELECT us FROM User us WHERE us.token =  :token",
 					User.class);
 			userSsoSupport = query.setParameter("token", token.trim()).getSingleResult();
 		} catch (Exception e) {
@@ -148,7 +148,7 @@ public class UserSsoServiceImpl implements UserSsoService {
 	public User findUserSsoByCredentials(String username, String password) {
 		userSsoSupport = new User();
 		try {
-			TypedQuery<User> query = em.createQuery("SELECT us FROM UserSso us WHERE us.username =  :username and us.password = :password and us.enabled = true",
+			TypedQuery<User> query = em.createQuery("SELECT us FROM User us WHERE us.username =  :username and us.password = :password and us.enabled = true",
 					User.class);
 			userSsoSupport = query.setParameter("username", username.trim()).setParameter("password", password).getSingleResult();
 		} catch (Exception e) {

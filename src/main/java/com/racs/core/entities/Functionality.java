@@ -16,7 +16,8 @@ import java.util.Date;
 
 @Entity
 //@Table(name = "oauth_functionality", uniqueConstraints= @UniqueConstraint(columnNames={"role_id", "name"}))
-public class FunctionalityRole implements Serializable{
+@Table(name = "functionalities")
+public class Functionality implements Serializable{
 
 	/**
 	 * 
@@ -40,11 +41,11 @@ public class FunctionalityRole implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="role_id")
 	@JsonManagedReference
-    private RoleUser roleApp;
+    private Roles roleApp;
 	
 	/**
 	 */
-	public FunctionalityRole() {
+	public Functionality() {
 	}
 	
 	/**
@@ -54,7 +55,7 @@ public class FunctionalityRole implements Serializable{
 	 * @param created
 	 * @param roleApp
 	 */
-	public FunctionalityRole(Long id, String name, Boolean enabled, Date created, RoleUser roleApp) {
+	public Functionality(Long id, String name, Boolean enabled, Date created, Roles roleApp) {
 		this.id = id;
 		this.name = name;
 		this.enabled = enabled;
@@ -65,14 +66,14 @@ public class FunctionalityRole implements Serializable{
 	/**
 	 * @param roleApp
 	 */
-	public FunctionalityRole(RoleUser roleApp) {
+	public Functionality(Roles roleApp) {
 		this.roleApp = roleApp;
 	}
 	
 	/**
 	 * @param id
 	 */
-	public FunctionalityRole(Long id) {
+	public Functionality(Long id) {
 		this.id = id;
 	}
 
@@ -136,14 +137,14 @@ public class FunctionalityRole implements Serializable{
 	/**
 	 * @return the roleApp
 	 */
-	public RoleUser getRoleApp() {
+	public Roles getRoleApp() {
 		return roleApp;
 	}
 
 	/**
 	 * @param roleApp the roleApp to set
 	 */
-	public void setRoleApp(RoleUser roleApp) {
+	public void setRoleApp(Roles roleApp) {
 		this.roleApp = roleApp;
 	}
 
@@ -188,9 +189,9 @@ public class FunctionalityRole implements Serializable{
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof FunctionalityRole))
+		if (!(obj instanceof Functionality))
 			return false;
-		FunctionalityRole other = (FunctionalityRole) obj;
+		Functionality other = (Functionality) obj;
 		if (created == null) {
 			if (other.created != null)
 				return false;

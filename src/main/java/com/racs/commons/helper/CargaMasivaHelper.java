@@ -15,12 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.racs.commons.bean.BulkLoadCsv;
 import com.racs.commons.exception.SisDaVyPException;
-import com.racs.core.entities.FunctionalityRole;
-import com.racs.core.entities.RoleUser;
+import com.racs.core.entities.Functionality;
+import com.racs.core.entities.Roles;
 import com.racs.core.entities.User;
-import com.racs.core.services.FunctionalityRoleService;
-import com.racs.core.services.RoleUserService;
-import com.racs.core.services.UserSsoService;
+import com.racs.core.services.RoleService;
+import com.racs.core.services.UserService;
 
 /**
  * Clase que permite el apoyo en el procesamiento del archivo de carga masivca
@@ -33,16 +32,16 @@ import com.racs.core.services.UserSsoService;
 public class CargaMasivaHelper {
 
 	// Services
-	private UserSsoService userSsoService;
-	private RoleUserService roleAppService;
+	private UserService userSsoService;
+	private RoleService roleAppService;
 	
 	@Autowired
-	public void setUserSsoService(UserSsoService userSsoService) {
+	public void setUserSsoService(UserService userSsoService) {
 		this.userSsoService = userSsoService;
 	}
 
 	@Autowired
-	public void setRoleAppService(RoleUserService roleAppService) {
+	public void setRoleAppService(RoleService roleAppService) {
 		this.roleAppService = roleAppService;
 	}
 
@@ -96,8 +95,8 @@ public class CargaMasivaHelper {
 
 		// Definicion de objetos
 		User user = new User();
-		RoleUser role = new RoleUser();
-		FunctionalityRole functionality = new FunctionalityRole();
+		Roles role = new Roles();
+		Functionality functionality = new Functionality();
 
 		// Validacion de datos
 		// Usuario
@@ -230,8 +229,8 @@ public class CargaMasivaHelper {
 	 * @param roleApp
 	 * @return
 	 */
-	private FunctionalityRole procesarFuncionalidad(String nombreFuncionalidad, RoleUser roleApp) throws Exception {
-		FunctionalityRole result = new FunctionalityRole();
+	private Functionality procesarFuncionalidad(String nombreFuncionalidad, Roles roleApp) throws Exception {
+		Functionality result = new Functionality();
 		// Obtengo todos los roles asignados a la aplicacion
 		/*Iterable<FunctionalityRole> iterFuncionality = roleApp.getFunctionalityRoles();
 		for (FunctionalityRole functionalityRoleTemp : iterFuncionality) {
@@ -263,8 +262,8 @@ public class CargaMasivaHelper {
 	 * @param applicationClient
 	 * @return
 	 */
-	private RoleUser procesarRol(String nombreRol) throws Exception {
-		RoleUser result = new RoleUser();
+	private Roles procesarRol(String nombreRol) throws Exception {
+		Roles result = new Roles();
 		// Obtengo todos los roles asignados a la aplicacion
 		/*Iterable<RoleUser> iterRoles = applicationClient.getRoleApps();
 		for (RoleUser roleTemp : iterRoles) {

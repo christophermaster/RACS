@@ -67,7 +67,7 @@
 											<span th:if="${not user.enabled}">Inactivo</span>
 										</td>
 										<td align="center" >
-											<a th:if="not ${user.isAdmin()}" th:href="@{/sso/usuario/} + ${user.id+'/ver'}"> <span
+											<a th:if="not ${user.isAdmin()}" th:href="@{/sso/usuario/} + ${user.id}+'/ver'"> <span
 												class="glyphicon glyphicon-eye-open ico-colorlist"
 												data-toggle="tooltip" title="Ver"></span>
 											</a>

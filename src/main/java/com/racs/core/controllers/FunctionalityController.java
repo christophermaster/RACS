@@ -1,8 +1,8 @@
 package com.racs.core.controllers;
 
 import com.racs.commons.exception.SisDaVyPException;
-import com.racs.core.entities.FunctionalityRole;
-import com.racs.core.services.FunctionalityRoleService;
+import com.racs.core.entities.Functionality;
+import com.racs.core.services.FunctionalityService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 
 @Controller
-public class FunctionalityRoleController {
+public class FunctionalityController {
 
-    private FunctionalityRoleService funcionalidadService;
+    private FunctionalityService funcionalidadService;
 
     
     @Autowired
-    public void setFuncionalidadService(FunctionalityRoleService funcionalidadService) {
+    public void setFuncionalidadService(FunctionalityService funcionalidadService) {
 		this.funcionalidadService = funcionalidadService;
 	}
 
@@ -77,7 +77,7 @@ public class FunctionalityRoleController {
      */
     @RequestMapping("/sso/funcionalidad/new")
     public String newFuncionalidad(Model model) {
-        model.addAttribute("funcionalidad", new FunctionalityRole());
+        model.addAttribute("funcionalidad", new Functionality());
         return "funcionalidadform";
     }
 
@@ -89,7 +89,7 @@ public class FunctionalityRoleController {
      * @throws SisDaVyPException 
      */
     @RequestMapping(value = "/sso/funcionalidad", method = RequestMethod.POST)
-    public String saveFuncionalidad(FunctionalityRole funcionalidad) throws SisDaVyPException {
+    public String saveFuncionalidad(Functionality funcionalidad) throws SisDaVyPException {
     	funcionalidadService.saveFuncionalidad(funcionalidad);
         return "redirect:/sso/funcionalidad/" + funcionalidad.getId();
     }

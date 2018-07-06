@@ -2,7 +2,7 @@ package com.racs.config;
 
 import com.racs.commons.helper.LoginHelper;
 import com.racs.core.entities.User;
-import com.racs.core.services.UserSsoService;
+import com.racs.core.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,7 +24,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	private LoginHelper loginHelper;
 
 	@Autowired
-	private UserSsoService userSsoService;
+	private UserService userSsoService;
 
 	// Atributos Globales
 	public Boolean isAuthInLDAP = Boolean.FALSE;
@@ -76,11 +76,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		this.loginHelper = loginHelper;
 	}
 
-	public UserSsoService getUserSsoService() {
+	public UserService getUserSsoService() {
 		return userSsoService;
 	}
 
-	public void setUserSsoService(UserSsoService userSsoService) {
+	public void setUserSsoService(UserService userSsoService) {
 		this.userSsoService = userSsoService;
 	}
 }

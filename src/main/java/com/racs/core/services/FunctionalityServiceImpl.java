@@ -1,8 +1,8 @@
 package com.racs.core.services;
 
 import com.racs.commons.exception.SisDaVyPException;
-import com.racs.core.entities.FunctionalityRole;
-import com.racs.core.repositories.FunctionalityRoleRepository;
+import com.racs.core.entities.Functionality;
+import com.racs.core.repositories.FunctionalityRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class FunctionalityRoleServiceImpl implements FunctionalityRoleService {
+public class FunctionalityServiceImpl implements FunctionalityService {
 
-    private FunctionalityRoleRepository funcionalidadRepository;
-    private FunctionalityRole functionalityRoleSupport;
+    private FunctionalityRepository funcionalidadRepository;
+    private Functionality functionalityRoleSupport;
 
     @PersistenceContext
     private EntityManager em;
@@ -28,22 +28,22 @@ public class FunctionalityRoleServiceImpl implements FunctionalityRoleService {
     }
     
     @Autowired
-    public void setFuncionalidadRepository(FunctionalityRoleRepository funcionalidadRepository) {
+    public void setFuncionalidadRepository(FunctionalityRepository funcionalidadRepository) {
 		this.funcionalidadRepository = funcionalidadRepository;
 	}
 
 	@Override
-    public Iterable<FunctionalityRole> listFuncionalidades() {
+    public Iterable<Functionality> listFuncionalidades() {
         return funcionalidadRepository.findAll();
     }
 
 	@Override
-    public FunctionalityRole getFuncionalidadById(Long id) {
+    public Functionality getFuncionalidadById(Long id) {
         return funcionalidadRepository.findOne(id);
     }
 
     @Override
-    public FunctionalityRole saveFuncionalidad(FunctionalityRole funcionalidad) throws SisDaVyPException{
+    public Functionality saveFuncionalidad(Functionality funcionalidad) throws SisDaVyPException{
     	try {
 			if (funcionalidad.getId()==null) {
 				funcionalidad.setCreated(new Date(System.currentTimeMillis()));
@@ -61,9 +61,9 @@ public class FunctionalityRoleServiceImpl implements FunctionalityRoleService {
     }
 
     @Override
-    public FunctionalityRole getFuncionalidadByName(String name, long roleAppId) {
+    public Functionality getFuncionalidadByName(String name, long roleAppId) {
         try {
-            TypedQuery<FunctionalityRole> query = em.createQuery("SELECT fr FROM FunctionalityRole fr WHERE fr.name = :functionalityname AND fr.roleApp = :roleappid", FunctionalityRole.class);
+            TypedQuery<Functionality> query = em.createQuery("SELECT fr FROM Functionality fr WHERE fr.name = :functionalityname AND fr.roleApp = :roleappid", Functionality.class);
             return query.setParameter("functionalityname", name).setParameter("roleappid", roleAppId).getSingleResult();
 
         } catch (Exception e) {
@@ -75,13 +75,13 @@ public class FunctionalityRoleServiceImpl implements FunctionalityRoleService {
     }
 
     @Override
-    public FunctionalityRole getFunctionalityRoleByName(String name, long roleAppId) {
+    public Functionality getFunctionalityRoleByName(String name, long roleAppId) {
         try {
-            FunctionalityRole objFunctionalityRole = new FunctionalityRole();
-            TypedQuery<FunctionalityRole> query = em.createQuery("SELECT fr FROM FunctionalityRole fr WHERE fr.name = :functionalityname AND fr.roleApp = :roleappid", FunctionalityRole.class);
+            Functionality objFunctionalityRole = new Functionality();
+            TypedQuery<Functionality> query = em.createQuery("SELECT fr FROM Functionality fr WHERE fr.name = :functionalityname AND fr.roleApp = :roleappid", Functionality.class);
 
-            List<FunctionalityRole> list = query.setParameter("functionalityname", name).setParameter("roleappid", roleAppId).getResultList();
-            for (FunctionalityRole functionalityRole : list) {
+            List<Functionality> list = query.setParameter("functionalityname", name).setParameter("roleappid", roleAppId).getResultList();
+            for (Functionality functionalityRole : list) {
                 objFunctionalityRole = functionalityRole;
                 break;
             }
@@ -90,7 +90,7 @@ public class FunctionalityRoleServiceImpl implements FunctionalityRoleService {
         } catch (Exception e) {
             //TODO
             e.printStackTrace();
-            return new FunctionalityRole();
+            return new Functionality();
         }
 
     }

@@ -294,7 +294,7 @@ input:not ([type] ):focus:not ([readonly] ) +label, input[type=text]:not
 	color: #000000 !important;
 	text-align: center !important;
 	padding: 1.3rem;
-	margin-top: 50%;
+	/*margin-top: 50%;*/
 }
 
 .titleForm > p{
@@ -392,3 +392,43 @@ body{
 	font-family: Raleway !important;
 }
 
+
+
+/**NEW LOGIN**/
+.flex-center {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 100%;
+}
+
+.flex-column {
+    -ms-flex-direction: column!important;
+    flex-direction: column!important;
+}
+
+.fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+}
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.mb-4, .my-4 {
+    margin-bottom: 1.5rem!important;
+}
+.mb-3, .my-3 {
+    margin-bottom: 1rem!important;
+}

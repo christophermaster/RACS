@@ -1,21 +1,21 @@
 package com.racs.core.services;
 
-import com.racs.RacsWebApplication;
-import com.racs.config.CustomUserDetails;
+import java.util.logging.Logger;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.logging.Logger;
+import com.racs.RacsWebApplication;
+import com.racs.config.CustomUserDetails;
 
-public class UserSsoDetailsService implements UserDetailsService {
+public class UserDetailsRacsService implements UserDetailsService {
 	
 	final Logger log = Logger.getLogger(RacsWebApplication.class.getName());
 	
-	private UserSsoService userSsoService;
+	private UserService userSsoService;
 	
-	public UserSsoDetailsService(UserSsoService userSsoService) {
+	public UserDetailsRacsService(UserService userSsoService) {
 		this.userSsoService = userSsoService;
 	}
 

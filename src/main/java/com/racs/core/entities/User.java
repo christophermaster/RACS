@@ -66,26 +66,32 @@ public class User implements Serializable{
 	@Column(name = "last_user_updater")
 	private String lastUserUpdater;
 
+	 @Column (name="token")
+	private String token;
+
+	@Column (name="token_date_validate")
+	private Date tokenDateValidate;
+
 	//Relaciones de entidades
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "users_roles",  joinColumns = @JoinColumn(name = "user_id"),
     	    inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@JsonManagedReference
-    private Set<RoleUser> roles = new HashSet<>();
+    private Set<Roles> rols = new HashSet<>();
 
 	//Gestion de la relacion *ToMany
-	public void addRoleApp(RoleUser roleApp) {
-		roles.add(roleApp);
+	public void addRoleApp(Roles roleApp) {
+		rols.add(roleApp);
 		roleApp.getUsers().add(this);
 	}
 
-    public void removeRoleApp(RoleUser roleApp) {
-        roles.remove(roleApp);
+    public void removeRoleApp(Roles roleApp) {
+        rols.remove(roleApp);
         roleApp.getUsers().remove(this);
     }
 
     public Boolean isAdmin(){
-		for (RoleUser role: roles) {
+		for (Roles role: rols) {
 			if(role.getName().equals("ADMIN_SSO")){
 				return Boolean.TRUE;
 			}
@@ -114,7 +120,9 @@ public class User implements Serializable{
 		this.lastUserUpdater = user.lastUserUpdater;
 		this.creationDate = user.creationDate;
 		this.creatorUser = user.creatorUser;	
-		this.roles = user.roles;
+		this.rols = user.rols;
+		this.token = user.token;
+		this.tokenDateValidate = user.tokenDateValidate;
 	}
 
 	//Getter y Setter
@@ -214,12 +222,30 @@ public class User implements Serializable{
 		this.lastUserUpdater = lastUserUpdater;
 	}
 
-	public Set<RoleUser> getRoles() {
-		return roles;
+	public Set<Roles> getRols() {
+		return rols;
 	}
 
-	public void setRoles(Set<RoleUser> roles) {
-		this.roles = roles;
+	public void setRols(Set<Roles> roles) {
+		this.rols = roles;
+	}
+	
+	
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public Date getTokenDateValidate() {
+		return tokenDateValidate;
+	}
+
+	public void setTokenDateValidate(Date tokenDateValidate) {
+		this.tokenDateValidate = tokenDateValidate;
 	}
 
 	@Override
@@ -250,7 +276,7 @@ public class User implements Serializable{
 		builder.append(", lastUserUpdater=");
 		builder.append(lastUserUpdater);
 		builder.append(", roles=");
-		builder.append(roles);
+		builder.append(rols);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -269,7 +295,7 @@ public class User implements Serializable{
 		result = prime * result + ((lastUserUpdater == null) ? 0 : lastUserUpdater.hashCode());
 		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
+		result = prime * result + ((rols == null) ? 0 : rols.hashCode());
 		result = prime * result + ((userActiveUntil == null) ? 0 : userActiveUntil.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
@@ -334,10 +360,10 @@ public class User implements Serializable{
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (roles == null) {
-			if (other.roles != null)
+		if (rols == null) {
+			if (other.rols != null)
 				return false;
-		} else if (!roles.equals(other.roles))
+		} else if (!rols.equals(other.rols))
 			return false;
 		if (userActiveUntil == null) {
 			if (other.userActiveUntil != null)
@@ -355,4 +381,3 @@ public class User implements Serializable{
 	
 
 }
-

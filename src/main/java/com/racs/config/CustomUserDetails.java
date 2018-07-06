@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.racs.core.entities.RoleUser;
+import com.racs.core.entities.Roles;
 import com.racs.core.entities.User;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class CustomUserDetails implements UserDetails {
     public CustomUserDetails(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.authorities = translate(user.getRoles());
+        this.authorities = translate(user.getRols());
     }
 
     /**
@@ -37,9 +37,9 @@ public class CustomUserDetails implements UserDetails {
      * @param roles the input list of roles.
      * @return a list of granted authorities
      */
-    private Collection<? extends GrantedAuthority> translate(Set<RoleUser> roles) {
+    private Collection<? extends GrantedAuthority> translate(Set<Roles> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (RoleUser role : roles) {
+        for (Roles role : roles) {
             String name = role.getName().toUpperCase();
             //Make sure that all roles start with "ROLE_"
             if (!name.startsWith("ROLE_"))

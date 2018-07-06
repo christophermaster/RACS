@@ -25,7 +25,7 @@ import com.racs.commons.scheduler.SchedulerConfiguration;
 import com.racs.config.CustomAuthenticationProvider;
 import com.racs.config.CustomUserDetails;
 import com.racs.core.entities.User;
-import com.racs.core.services.UserSsoService;
+import com.racs.core.services.UserService;
 
 /**
  * Spring Boot Application que representa la clase de inicio del modulo.
@@ -64,7 +64,7 @@ public class RacsWebApplication extends SpringBootServletInitializer implements 
 	}
 
 	@Autowired
-	public void authenticationManager(AuthenticationManagerBuilder builder, UserSsoService userSsoService) throws Exception {
+	public void authenticationManager(AuthenticationManagerBuilder builder, UserService userSsoService) throws Exception {
 		// estados de usuarios en active directory
 		ReadDBScheduler readDBScheduler = new ReadDBScheduler();
 		try {
@@ -103,7 +103,7 @@ public class RacsWebApplication extends SpringBootServletInitializer implements 
 	 * @return
 	 */
 	private UserDetailsService userDetailsService(final CustomAuthenticationProvider customAuthentication,
-			final UserSsoService userSsoService) {
+			final UserService userSsoService) {
 
 		System.out.println("[TEST] UserDetailsService: " + userSsoService.toString());
 
