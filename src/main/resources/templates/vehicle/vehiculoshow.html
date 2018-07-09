@@ -2,59 +2,94 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Spring Boot Exemple</title>
+<title>Datos de la Comunidad</title>
 
-    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+
 </head>
 <body>
-<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
-<div class="container">
-    
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div class="row layout">
+		<div class="col-lg-2 layout-left">
+			<!--/*/ <th:block th:include="fragments/layout-left :: layout-left"></th:block> /*/-->
+		</div>
+		<div class="col-lg-8 layout-rigth">
+			<div class="col-lg-12">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/sso}">Inicio</a></li>
+						<li class="breadcrumb-item"><a th:href="@{/sso/vehiculos}">Vehiculos</a></li>
+						<li class="breadcrumb-item active" aria-current="page"><span th:text="${vehiculo.lecenseplateVehicle}"></span></li>
+					</ol>
+				</nav>
+			</div>
+			
+			<div th:fragment="propietarioshow">
+				<div class="col-lg-12">
+					<div class="row">
+						<div class="col-lg-12 layout-title">
+							<h3>DATOS DEL VEHICULO</h3>
+						</div>
+						
+						<div  class="col-lg-12" >
+						     <form class="form-horizontal">
+						     
+						     	<div class = "row">
+							     	<div class="form-group col-lg-4">
+						                <label class="control-label">Nombre del Propietario:</label>
+						                <span  class="form-control" th:text="${vehiculo.ownerEntity.nameOwner}"  disabled="disabled"></span>
+						                
+						            </div>
+						            
+						            <div class="form-group col-lg-4">
+						                <label class="control-label">Marca</label>
+						                <span  class="form-control" th:text="${vehiculo.makeVehicle}"  disabled="disabled"></span>
+						                
+						            </div>
+						            <div class="form-group col-lg-4">
+						                <label class="control-label">Modelo</label>
+						                <span class="form-control" th:text="${vehiculo.modelVehicle}"  disabled="disabled"></span>
+						                
+						            </div>
+						     	
+						     	</div>
+						     	
+						     	<div class= "row">
+						     	
+							     	<div class="form-group col-lg-4">
+						                <label class="control-label">Color:</label>
+						                <span class="form-control" th:text="${vehiculo.colourVehicle}"  disabled="disabled "></span>
+						                
+						            </div>
+						            <div class="form-group col-lg-4">
+						                <label class="control-label">Año:</label>
+						                <span class="form-control" th:text="${vehiculo.LongVehicle}"  disabled="disabled "></span>
+						                
+						            </div>
+						            <div class="form-group col-lg-4">
+						                <label class="control-label">Numero de Placa:</label>
+						                <span class="form-control" th:text="${vehiculo.lecenseplateVehicle}"  disabled="disabled "></span>
+						                
+						            </div>
+						     	
+						     	</div>
 
-    <h2>Detalles</h2>
-        <div>
-      <form class="form-horizontal">
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Nombre del Propietario:</label>
-                <div class="col-sm-10">
-                    <p  class="form-control-static" th:text="${vehiculo.ownerEntity.nameOwner}"></p>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Marca</label>
-                <div class="col-sm-10">
-                    <p  class="form-control-static" th:text="${vehiculo.makeVehicle}"></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Modelo</label>
-                <div class="col-sm-10">
-                    <p class="form-control-static" th:text="${vehiculo.modelVehicle}"></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Color:</label>
-                <div class="col-sm-10">
-                    <p class="form-control-static" th:text="${vehiculo.colourVehicle}"></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Año:</label>
-                <div class="col-sm-10">
-                    <p class="form-control-static" th:text="${vehiculo.LongVehicle}"></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Numero de Placa:</label>
-                <div class="col-sm-10">
-                    <p class="form-control-static" th:text="${vehiculo.lecenseplateVehicle}"></p>
-                </div>
-            </div>
-            </form>
-    </div>
-</div>
+					            
+					            
+					            </form>
+   
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-lg-12">
+				<div class="row text-center">
+					<a href="#" class="btn btn-default" th:href="@{/sso/vehiculos}" role="button">Aceptar</a>
+				</div>
+			</div>
+		   </div>
+		</div>
 
 </body>
 </html>

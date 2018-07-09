@@ -1,98 +1,112 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-
-    <title>Reconocimiento de placa</title>
-
-    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+<title>Propietarios</title>
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
 
-    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
-<div class="container">
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div class="row layout">
+		<div class="col-lg-2 layout-left">
+			<!--/*/ <th:block th:include="fragments/layout-left :: layout-left"></th:block> /*/-->
+		</div>
+		
+		<div class="col-lg-8 layout-rigth">
+			<div class="col-lg-12">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/sso}">Inicio</a></li>
+						<li class="breadcrumb-item active"><a th:href="@{/sso/propiedades}">Propiedades</a></li>
+						<li class="breadcrumb-item active" aria-current="page">
+							<span th:if="${propiedad.ownershipNumber != null}" th:text="${propiedad.ownershipNumber}"></span>
+							<span th:if="${propiedad.ownershipNumber == null}">Nueva Propiedad</span>
+			
+						</li>
+					</ol>
+				</nav>
+			</div>
+			
+			<div th:fragment="listausuariosinclude">
+				<div class="col-lg-12">
+					<div class="row">
+						<div class="col-lg-12 layout-title">
+							<h3>DATOS DE LA PROPIEDAD</h3>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div>
+						 <form class="form-horizontal" th:object="${propiedad}" th:action="@{/sso/propiedad}" method="post">
+				            <input type="hidden" th:field="*{id}"/>
+				            
+				            <div class = "row">
+				            
+				             <div class="form-group col-lg-4">
+				                	<label class="control-label">Nombre de Propietario:</label>
+				                <div >
+				                   <select class="selectpicker show-menu-arrow" th:field="*{ownerEntity.id}" required="required" >
+				                  	  <option value="">Seleccione Propietario</option>
+									  <option th:each="propietario : ${propietarios}"  th:value ="${propietario.id}" 
+									  th:utext="${propietario.nameOwner} +' ' + ${propietario.lastNameOwner} ">
+									  </option>
+									</select>
+				                </div>
+				            </div>
+				            <div class="form-group col-lg-4">
+				                <label class="control-label">#Propiedad</label>
+				                <div >
+				                    <input type="text" class="form-control" th:field="*{ownershipNumber}"  required="required"/>
+				                </div>
+				            </div>
+				            
+			                <div class="form-group col-lg-4">
+				                <label class=" control-label">Tipo de propiedad:</label>
+				                <div >
+				                 <input type="text" class="form-control" th:field="*{typeOwnership}" pattern="[A-Za-z]{3,}"
+					             maxlength="30" title ="Solo letra" required="required"/>
+				                </div>
+				            </div>
+				            
+				            </div>
+				            
+				            <div class = "row">
 
-	<hr/>
-    <div class="flex-center flex-column" >
-        <h2>Modificar Propiedad</h2>
-        <br/>
-        <form class="form-horizontal" th:object="${propiedad}" th:action="@{/propiedad}" method="post">
-            <input type="hidden" th:field="*{id}"/>
-            
-            <div class = "row">
-            
-             <div class="col-sm-6">
-                <div class="md-form" >
-                	<label class="control-label">Nombre de Propietario:</label>
-                   <select class="selectpicker show-menu-arrow" th:field="*{ownerEntity.id}" required="required" >
-                  	  <option value="">Seleccione Propietario</option>
-					  <option th:each="propietario : ${propietarios}"  th:value ="${propietario.id}" 
-					  th:utext="${propietario.nameOwner} +' ' + ${propietario.lastNameOwner} ">
-					  </option>
-					</select>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="md-form">
-                	<label class="control-label">#Propiedad</label>
-                    <input type="text" class="form-control" th:field="*{ownershipNumber}"  required="required"/>
-                </div>
-            </div>
-            
-            
-            </div>
-            
-            <div class = "row">
-	            <div class="col-sm-6">
-	                <div class="md-form">
-	                	<label class=" control-label">Tipo de propiedad:</label>
-	                    <input type="text" class="form-control" th:field="*{typeOwnership}" pattern="[A-Za-z]{3,}"
-		             maxlength="30" title ="Solo letra" required="required"/>
-	                </div>
-	            </div>
-	            
-	            <div class="col-sm-6" th:if="${propiedad.inhabited} == true">
-	                <div class="md-form" >
-	                	<label class="control-label">Habitado:</label>
-	                    <select class="selectpicker show-menu-arrow" th:field="*{inhabited}" required="required">
-						  <option value = "1">Si</option>
-						  <option value = "0">No</option>
-						</select>
+					            <div class="form-group col-lg-4">
+					                <label class="control-label">Habitado:</label>
+					                <div >
+					                    <select class="selectpicker show-menu-arrow" th:field="*{inhabited}" required="required">
+										  <option value = "1">Si</option>
+										  <option value = "0">No</option>
+										</select>
+								
+					           		 </div>
+					            </div>
+					           
+				            	 <div class="form-group col-lg-4">
+					               	<label class="control-label">Area:</label>
+					                <div>
+					                    <input type="text" class="form-control" th:field="*{area}"/>
+					                </div>
+				            	</div>
 				
-	           		 </div>
-	            </div>
-	            <div class="col-sm-6" th:if="${propiedad.inhabited} == false">
-	                <div class="md-form" >
-	              	    <label class="control-label">Habitado:</label>
-	                    <select class="selectpicker show-menu-arrow" th:field="*{inhabited}" required="required">
-						  <option value = "0">No</option>
-						  <option value = "1">Si</option>
-						</select>
-	
-	                </div>
-            	</div>
-
-            </div>
-            
-            <div class = "row">
-
-            <div class="col-sm-6">
-                <div class="md-form">
-               		<label class="control-label">Area:</label>
-                    <input type="text" class="form-control" th:field="*{area}"/>
-                </div>
-            </div>
-            
-            </div>
-            <br/>
-            <br/>
-            <div class="flex-center flex-column">
-                <button type="submit" class="btn btn-default">Guardar</button>
-            </div>
-            <br/>
-            <br/>
-        </form>
-    </div>
-</div>
+				            </div>
+				            
+				            <div class = "row">
+				
+					            <div class="col-lg-12">
+					                <button type="submit" class="btn btn-default center-block">Guardar</button>
+					            </div>
+				            
+				            </div>
+				    
+				          </form>
+					  </div>
+					</div>
+			   </div>
+		   </div>
+     </div>
+ </div>
 
 </body>
 </html>

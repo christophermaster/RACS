@@ -116,10 +116,6 @@ public class OwnerController {
 		
 		model.addAttribute("propietario", owner);
 		model.addAttribute("notification", notification);
-		
-    	
-    	ownerService.saveOwner(ownerEntity);
-        
     	return "owner/propietarioshow";
     }
 
@@ -144,7 +140,6 @@ public class OwnerController {
     	
     	model.addAttribute("notification", notification);
     	model.addAttribute("propietarios", ownerService.listAllOwner());
-    	
     	
     	return "owner/propietarios";
     }

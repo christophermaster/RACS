@@ -2,59 +2,97 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Spring Boot Exemple</title>
+<title>Datos de la Comunidad</title>
 
-    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+
 </head>
 <body>
- <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
-
-<div class="container">
-   
-    <h2>Detalles</h2>
-        <div>
-      <form class="form-horizontal">
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Nombre del Propietario:</label>
-                <div class="col-sm-10">
-                    <p  class="form-control-static" th:text="${propiedad.ownerEntity.nameOwner}"></p>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="col-sm-2 control-label"># Propiedad:</label>
-                <div class="col-sm-10">
-                    <p  class="form-control-static" th:text="${propiedad.ownershipNumber}"></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Tipo:</label>
-                <div class="col-sm-10">
-                    <p class="form-control-static" th:text="${propiedad.typeOwnership}"></p>
-                </div>
-            </div>
-            <div class="form-group" th:if="${propiedad.inhabited} == true">
-                <label class="col-sm-2 control-label">Habitado:</label>
-                <div class="col-sm-10" >
-                    <p class="form-control-static" >Si</p>
-                </div>
-            </div>
-             <div class="form-group" th:if="${propiedad.inhabited} == false">
-                <label class="col-sm-2 control-label">Habitado:</label>
-                <div class="col-sm-10" >
-                    <p class="form-control-static" >No</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Area:</label>
-                <div class="col-sm-10">
-                    <p class="form-control-static" th:text="${propiedad.area}"></p>
-                </div>
-            </div>
-            </form>
-    </div>
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div class="row layout">
+		<div class="col-lg-2 layout-left">
+			<!--/*/ <th:block th:include="fragments/layout-left :: layout-left"></th:block> /*/-->
+		</div>
+		<div class="col-lg-8 layout-rigth">
+			<div class="col-lg-12">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/sso}">Inicio</a></li>
+						<li class="breadcrumb-item"><a th:href="@{/sso/propiedades}">Propiedades</a></li>
+						<li class="breadcrumb-item active" aria-current="page"><span th:text="${propiedad.ownershipNumber}"></span></li>
+					</ol>
+				</nav>
+			</div>
+			
+			<div th:fragment="propietarioshow">
+				<div class="col-lg-12">
+					<div class="row">
+						<div class="col-lg-12 layout-title">
+							<h3>DATOS DE LA PROPIEDAD</h3>
+						</div>
+						
+						<div  class="col-lg-12" >
+						    <form class="form-horizontal">
+						    
+						    	<div class = "row">
+						    	
+							    	<div class="form-group col-lg-4">
+						                <label class="control-label">Nombre del Propietario:</label>
+						                <span  class="form-control" th:text="${propiedad.ownerEntity.nameOwner}" disabled="disabled"></span>
+						                
+						            </div>
+						            
+						            <div class="form-group col-lg-4">
+						                <label class="control-label"># Propiedad:</label>
+						                <span  class="form-control" th:text="${propiedad.ownershipNumber}" disabled="disabled"></span>  
+						            </div>
+						            
+						            <div class="form-group col-lg-4">
+						                <label class="control-label">Tipo:</label>
+						                <span class="form-control" th:text="${propiedad.typeOwnership}" disabled="disabled"></span>
+						            </div>
+						    	
+						    	
+						    	</div>
+						    	
+						    	<div class = "row">
+							    	<div class="form-group col-lg-4" th:if="${propiedad.inhabited} == true">
+						                <label class="control-label">Habitado:</label>
+						                <span class="form-control" disabled="disabled ">Si</span>
+						                
+						            </div>
+						             <div class="form-group col-lg-4" th:if="${propiedad.inhabited} == false">
+						                <label class="control-label">Habitado:</label>
+						                <span class="form-control" disabled="disabled" >No</span>
+						                
+						            </div>
+						            <div class="form-group col-lg-4">
+						                <label class="control-label">Area:</label>
+						                <span class="form-control" th:text="${propiedad.area}" disabled="disabled" ></span>
+						                
+						            </div>
+						    	</div>
+					
+					
+					            
+					            
+					            </form>
+    
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		<div class="col-lg-12">
+				<div class="row text-center">
+					<a href="#" class="btn btn-default" th:href="@{/sso/propiedades}" role="button">Aceptar</a>
+				</div>
+		</div>				
+						
+				
+  </div>
 </div>
+<!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
 
 </body>
 </html>
