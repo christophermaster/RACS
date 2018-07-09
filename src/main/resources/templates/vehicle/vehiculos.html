@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Spring Boot Exemple</title>
+	<link href="../../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" media="screen"/>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+<div class="container">
+
+
+
+      <div class="row">
+        <div class ="col-md-6">
+       	 <h2>Lista de Vehiculo</h2>
+        </div>
+        
+        <div class ="col-md-6">
+       	 <h2 class ="agregar"><a href="#" th:href="@{/vehiculo/nuevo}">Agregar +</a> </h2>
+        </div>
+       </div>
+    <div th:if="${not #lists.isEmpty(vehiculos)}">
+   
+    
+    
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Nombre del propietario</th>
+                <th>Marca</th>  
+                <th>Modelo</th> 
+                <th>color</th>   
+                <th>Año</th> 
+                <th>Número de Placa</th>  
+                <th>Ver</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+            <tr th:each="vehiculo : ${vehiculos}">
+                <td th:text="${vehiculo.id}"><a href="/vehiculo/${vehiculo.id}">Id</a></td>
+                <td th:text="${vehiculo.ownerEntity.nameOwner}">Nombre del Propietario</td>
+                <td th:text="${vehiculo.makeVehicle}">Marca</td>
+                <td th:text="${vehiculo.modelVehicle}">Modelo</td>
+                <td th:text="${vehiculo.colourVehicle}">Color</td>
+                <td th:text="${vehiculo.LongVehicle}">Año</td>
+                <td th:text="${vehiculo.lecenseplateVehicle}">Número de Placa</td>
+                <td><a th:href="${'/vehiculo/' + vehiculo.id}">Ver</a></td>
+                <td><a th:href="${'/vehiculo/editar/' + vehiculo.id}">Editar</a></td>
+                <td><a th:href="${'/vehiculo/eliminar/' + vehiculo.id}">Eliminar</a></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>

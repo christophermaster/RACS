@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:td="http://www.tdymeleaf.org">
+<head lang="en">
+<title>Propietarios</title>
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+<meta name="viewport" content="widtd=device-widtd, initial-scale=1" />
+</head>
+<body>
+
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div class="row layout">
+		<div class="col-lg-2 layout-left">
+			<!--/*/ <th:block th:include="fragments/layout-left :: layout-left"></th:block> /*/-->
+		</div>
+		
+		<div class="col-lg-8 layout-rigtd">
+			<div class="col-lg-12">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/sso}">Inicio</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Propietarios</li>
+					</ol>
+				</nav>
+			</div>
+			
+			<div th:fragment="listapropietariosinclude">
+				<div class="col-lg-12">
+					<div class="row">
+						<div class="col-lg-12 layout-title">
+							<h3>LISTA DE PROPIETARIOS</h3>
+						</div>
+						<div class="col-lg-12">
+							<br/><br/>
+							<div class="plus">
+								<a href="#" th:href="@{/sso/propietario/nuevo}"> <span
+									class="glyphicon glyphicon-plus-sign ico-colornew"
+									data-toggle="tooltip" title="Nuevo Propietario"></span>
+								</a>
+							</div>
+						</div>
+						
+						<div class="col-lg-12">
+							<table id="myDataTable" class="table table-hover">
+							
+								<thead>
+									<tr>
+										<td align="center" ><b>Id</b></td>
+						                <td align="center" ><b>Nombre</b></td>
+						                <td align="center" ><b>Apellido</b></td>  
+						                <td align="center" ><b>Cedula</b></td> 
+						                <td align="center" ><b>Comunidad</b></td>   
+						                <td align="center" ><b>Ver</b></td>
+						                <td align="center" ><b>Editar</b></td>
+						                <td align="center" ><b>Eliminar</b></td>
+									</tr>
+								</thead>
+								<tbody th:if="${#lists.isEmpty(propietarios)}">
+									
+									<tr>
+										<td colspan="7" class="text-center">
+											El sistema aún no contiene usuarios
+										</td>
+									</tr>
+								
+								</tbody>
+								<tbody th:if="${not #lists.isEmpty(propietarios)}">
+								
+									<tr th:each="propietario : ${propietarios}">
+						                <td  align="center" th:text="${propietario.id}"><a href="/sso/propietario/${propietario.id}">Id</a></td>
+						                <td  align="center" th:text="${propietario.nameOwner}">Nombre</td>
+						                <td  align="center" th:text="${propietario.lastNameOwner}">Apellido</td>
+						                <td  align="center" th:text="${propietario.identificationNumberOwner}">Cedula</td>
+						                <td  align="center" th:text="${propietario.comunityEntity.nameComunity}">Comunidad</td>
+						                
+						                <td  align="center"><a th:href="@{/sso/propietario/} + ${propietario.id}"><span
+											
+														class="glyphicon glyphicon-eye-open ico-colorlist"
+														data-toggle="tooltip" title="Ver"></span></a></td>
+														
+						                <td  align="center"><a th:href="@{/sso/propietario/editar/} + ${propietario.id}"><span
+														class="glyphicon glyphicon-pencil ico-colorlist"
+														data-toggle="tooltip" title="Editar"></span></a></td>
+														
+						                <td align="center"><a th:href ="@{/sso/propietario/eliminar/} + ${propietario.id}" class="delete">
+							                <span class="glyphicon glyphicon-remove-sign ico-colorlist"
+											data-toggle="tooltip" title="Eliminar"></span></a></td>
+						            </tr>
+								
+								</tbody>
+							
+							</table>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('#myDataTable').DataTable({
+            "ordering": false,
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "No hay registros para mostrar",
+                "info": "Página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay registros disponibles",
+                "infoFiltered": "(Filtrado desde _MAX_ total)",
+                "paginate": {
+                    "previous": "Ant.",
+                    "next": "Sig.",
+                    "first": "Primer"
+                },
+                "search": "Buscar:",
+            }
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

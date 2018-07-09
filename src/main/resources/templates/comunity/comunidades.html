@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-<title>Usuarios - Módulo SSO</title>
+<title>Comunidades</title>
 <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
@@ -22,7 +22,7 @@
 					</ol>
 				</nav>
 			</div>
-			<div th:fragment="listausuariosinclude">
+			<div th:fragment="listacomunidadinclude">
 				<div class="col-lg-12">
 					<div class="row">
 						<div class="col-lg-12 layout-title">
@@ -59,17 +59,23 @@
 								  </tbody>
 								  <tbody th:if="${not #lists.isEmpty(comunidades)}">
 						            <tr th:each="comunidad : ${comunidades}">
-						                <td align="center" th:text="${comunidad.id}"><a href="/comunidad/${comunidad.id}">Id</a></td>
+						                <td align="center" th:text="${comunidad.id}"><a href="/sso/comunidad/${comunidad.id}">Id</a></td>
 						                <td align="center" th:text="${comunidad.nameComunity}">Nombre Comunidad</td>
 						                <td align="center" th:text="${comunidad.typeComunity}">Tipo Comunidad</td>
-						                <td align="center"><a th:href="${ '/comunidad/' + comunidad.id}"><span
+						                
+						                
+						                <td align="center"><a th:href="@{/sso/comunidad/} + ${comunidad.id}"><span
+										
 													class="glyphicon glyphicon-eye-open ico-colorlist"
 													data-toggle="tooltip" title="Ver"></span></a></td>
-						                <td align="center"><a th:href="${'/comunidad/editar/' + comunidad.id}"> <span
+						                
+						                <td align="center"><a th:href="@{/sso/comunidad/editar/} + ${comunidad.id}"> <span
 													class="glyphicon glyphicon-pencil ico-colorlist"
 													data-toggle="tooltip" title="Editar"></span></a></td>
-						                <td align="center"><a th:href="${'/comunidad/eliminar/' + comunidad.id}"><span class="glyphicon glyphicon-remove-sign ico-colorlist"
-													data-toggle="tooltip" title="Eliminar"></span></a></td>
+													
+						                <td align="center"><a th:href="@{/sso/comunidad/eliminar/}+ ${comunidad.id}" class="delete">
+						                <span class="glyphicon glyphicon-remove-sign ico-colorlist"
+										data-toggle="tooltip" title="Eliminar"></span></a></td>
 						            </tr>
 						          </tbody>
 							</table>

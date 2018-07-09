@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>Propietarios</title>
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div class="row layout">
+		<div class="col-lg-2 layout-left">
+			<!--/*/ <th:block th:include="fragments/layout-left :: layout-left"></th:block> /*/-->
+		</div>
+		
+		<div class="col-lg-8 layout-rigth">
+			<div class="col-lg-12">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/sso}">Inicio</a></li>
+						<li class="breadcrumb-item active"><a th:href="@{/sso/propietarios}">Propietarios</a></li>
+						<li class="breadcrumb-item active" aria-current="page">
+							<span th:if="${propietario.nameOwner != null}" th:text="${propietario.nameOwner}"></span>
+							<span th:if="${propietario.nameOwner == null}">Nuevo Usuario</span>
+			
+						</li>
+					</ol>
+				</nav>
+			</div>
+			
+			<div th:fragment="listausuariosinclude">
+				<div class="col-lg-12">
+					<div class="row">
+						<div class="col-lg-12 layout-title">
+							<h3>DATOS DEL PROPIETARIO</h3>
+						</div>
+					</div>
+					<div class="col-lg-12">
+						<div>
+							
+							 <form class="form-horizontal" th:object="${propietario}" th:action="@{/sso/propietario}" method="post">
+					            <input type="hidden" th:field="*{id}"/>
+					            
+						          <div class = "row">
+						          
+							          <div class="form-group col-lg-4">
+								            <label class="control-label">Nombre:</label>
+							           		<div >
+								                <input type="text" class="form-control" th:field="*{nameOwner}" pattern="[A-Za-z]{3,}"
+								                 maxlength="30" title ="Solo letra" required="required"/>
+								            </div>
+								      </div>
+								      
+								      <div class="form-group col-lg-4" >
+								         <label class="control-label">Apellido:</label> 
+								      	 <div >
+								            <input type="text" class="form-control" th:field="*{lastNameOwner}" pattern="[A-Za-z]{3,}"
+								             maxlength="30" title ="Solo letra" required="required"/>
+								         </div>
+								      </div>
+								      					       
+							       	 <div class="form-group col-lg-3 cedula">
+							            <label class=" control-label">Número de identificacion:</label>
+							      		<div >
+							                 <input type="text" pattern="[0-9]{7,}" maxlength="10" class="form-control" th:field="*{identificationNumberOwner}" required="required" title="Ej: 1234567" />
+							            </div>
+							          </div>
+							          
+							          <div class="form-group col-lg-1">
+							          
+									      <label class="control-label">  </label>
+								          <div class="md-form">
+									            <select class="selectpicker show-menu-arrow tipoC" th:field="*{typeIdentificationNumberOwner}">
+												  <option value = "V">V</option>
+												  <option value = "E">E</option>
+												  <option value = "J">J</option>
+												</select>
+								          </div>
+								      </div>
+								      
+								      
+						         </div>  
+					         
+						        <div class= "row">
+	
+									<div class="form-group col-lg-4">
+						              <label class="control-label">Nombre de Comunidad:</label>
+									  <div>
+						                   <select class="selectpicker show-menu-arrow" th:field="*{comunityEntity.id}" required="required" >
+						                  	  <option value="">Seleccione Comunidad</option>
+											  <option th:each="comunidad : ${comunidades}"  th:value ="${comunidad.id}" th:utext="${comunidad.nameComunity}">
+											  </option>
+											</select>
+						                </div>
+						            </div>
+							           	
+						  		     <br/>
+						            
+						
+						         </div>
+							
+							
+						         <div class="row">
+						            <div class="col-lg-12">
+						                <button type="submit" class="btn btn-default center-block">Guardar</button>
+						            </div>
+						         </div>
+					         
+					        </form>
+						
+						</div>
+					</div>
+						
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

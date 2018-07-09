@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Spring Boot Exemple</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+  <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+<div class="container">
+  
+    <hr/>
+    <h2  class="flex-center flex-column" >Detalles</h2>
+    <br/>
+    <div class="col-sm-6 img" >
+
+        <img src="../../static/images/output.jpg" class ="img" width="200" th:src="@{/images/output.jpg}"/>
+
+    </div>
+    
+    
+   <div class="col-sm-6" >
+      <form class="form-horizontal">
+
+            <div class="col-sm-12">
+                <div class="md-form">
+                	<label class=" control-label">Nombre del Propietario:</label>
+                	    <hr class = "hr"/>
+                    <p  class="form-control-static" th:text="${historial.ownerEntity.nameOwner}"></p>
+                </div>
+            </div>
+            
+            <div class="col-sm-12">
+                <div class="md-form">
+                	<label class="control-label">Fecha</label>
+                	    <hr class = "hr"/>
+                    <p  class="form-control-static" th:text="${historial.date}"></p>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="md-form">
+                    
+                	<label class="control-label">Hora</label>
+                	<hr class = "hr"/>
+                    <p class="form-control-static" th:text="${historial.hour}"></p>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="md-form">
+               	 	<label class="control-label">Tipo de acceso:</label>
+               	 	<hr class = "hr"/>
+                    <p class="form-control-static" th:text="${historial.typeaccess}"></p>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="md-form">
+                	<label class="control-label">Tipo de seguridad:</label>
+                	<hr class = "hr"/>
+                    <p class="form-control-static" th:text="${historial.typesecurity}"></p>
+                </div>
+            </div>
+           
+            </form>
+    </div>
+</div>
+<br/>
+<br/>
+<br/>
+</body>
+</html>
