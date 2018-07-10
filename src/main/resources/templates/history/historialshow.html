@@ -2,70 +2,87 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Spring Boot Exemple</title>
+<title>Datos de Acceso</title>
 
-    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+
 </head>
 <body>
-  <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
-<div class="container">
-  
-    <hr/>
-    <h2  class="flex-center flex-column" >Detalles</h2>
-    <br/>
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div class="row layout">
+		<div class="col-lg-2 layout-left">
+			<!--/*/ <th:block th:include="fragments/layout-left :: layout-left"></th:block> /*/-->
+		</div>
+		
+		<div class="col-lg-8 layout-rigth">
+			<div class="col-lg-12">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/sso}">Inicio</a></li>
+						<li class="breadcrumb-item"><a th:href="@{/sso/historicos}">Historicos</a></li>
+						<li class="breadcrumb-item active" aria-current="page"><span th:text="${historial.ownerEntity.nameOwner}"></span></li>
+					</ol>
+				</nav>
+			</div>
+			<div th:fragment="comunidadshow">
+				<div class="col-lg-12">
+					<div class="row">
+						<div class="col-lg-12 layout-title">
+							<h3>DATOS DE ACCESO</h3>
+						</div>
+						<div  class="col-lg-12" >
+							 <form class="form-horizontal">
+							 
+								 	<div class ="row">
+								 	
+									 	<div class="form-group col-lg-4 ">
+									 		<label class=" control-label">Nombre del Propietario:</label>   
+						                    <span  class="form-control" th:text="${historial.ownerEntity.nameOwner}" disabled="disabled "></span>
+						                </div>
+							            
+							            <div class="form-group col-lg-4 ">
+							            	<label class="control-label">Fecha</label> 
+						                    <span  class="form-control" th:text="${historial.date}" disabled="disabled "></span>
+						                 </div>
+							            <div class="form-group col-lg-4 ">
+						                	<label class="control-label">Hora</label>
+						                    <span class="form-control" th:text="${historial.hour}" disabled="disabled"></span>
+							            </div>
+								 	
+								 	
+								 	</div>
+								 	
+								 	<div class= "row">
+									 	<div class="form-group col-lg-4 ">
+						               		<label class="control-label">Tipo de acceso:</label>
+						               	    <span class="form-control" th:text="${historial.typeaccess}" disabled="disabled"></span>
+						            
+							            </div>
+							            <div class="form-group col-lg-4 ">
+							                <label class="control-label">Tipo de seguridad:</label>
+							                <span class="form-control" th:text="${historial.typesecurity}" disabled="disabled"></span>
+							             </div>
+								 	</div>   
+					            </form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="row text-center">
+					<a href="#" class="btn btn-default" th:href="@{/sso/historicos}" role="button">Aceptar</a>
+				</div>
+			</div>	
+		</div>
+	
     <div class="col-sm-6 img" >
 
-        <img src="../../static/images/output.jpg" class ="img" width="200" th:src="@{/images/output.jpg}"/>
+        <img src="/RacsWeb/src/main/resources/static/images/output.jpg" class ="img" width="200" th:src="@{/images/output.jpg}"/>
 
-    </div>
-    
-    
-   <div class="col-sm-6" >
-      <form class="form-horizontal">
-
-            <div class="col-sm-12">
-                <div class="md-form">
-                	<label class=" control-label">Nombre del Propietario:</label>
-                	    <hr class = "hr"/>
-                    <p  class="form-control-static" th:text="${historial.ownerEntity.nameOwner}"></p>
-                </div>
-            </div>
-            
-            <div class="col-sm-12">
-                <div class="md-form">
-                	<label class="control-label">Fecha</label>
-                	    <hr class = "hr"/>
-                    <p  class="form-control-static" th:text="${historial.date}"></p>
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <div class="md-form">
-                    
-                	<label class="control-label">Hora</label>
-                	<hr class = "hr"/>
-                    <p class="form-control-static" th:text="${historial.hour}"></p>
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <div class="md-form">
-               	 	<label class="control-label">Tipo de acceso:</label>
-               	 	<hr class = "hr"/>
-                    <p class="form-control-static" th:text="${historial.typeaccess}"></p>
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <div class="md-form">
-                	<label class="control-label">Tipo de seguridad:</label>
-                	<hr class = "hr"/>
-                    <p class="form-control-static" th:text="${historial.typesecurity}"></p>
-                </div>
-            </div>
-           
-            </form>
     </div>
 </div>
-<br/>
-<br/>
-<br/>
+<!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
+
+
 </body>
 </html>

@@ -30,9 +30,8 @@ create table oauth_code (
   authentication long varbinary
 );
 
+insert into racsdb.users (username, email, password, enabled) values ("admin", "correo@ejemplo.com","$2a$10$iC57OHzeb.RK3UvANFfRbOKWxB409tOtNsMKz/8qxT3yKxK0sROdq",true);
 
-insert into users (username, email, password, enabled) values ("stf-admin", "correo@ejemplo.com","$2a$10$iC57OHzeb.RK3UvANFfRbOKWxB409tOtNsMKz/8qxT3yKxK0sROdq",true);
+insert into racsdb.roles (creation_date, enabled, name,type) values ('2018-04-10', 1, 'ADMIN_SSO', 'APLICACION');
 
-insert into roles (created, enabled, name,type, aplicacion_cliente_id) values ('2018-04-10', 1, 'ADMIN_SSO', 'APLICACION', NULL);
-
-insert into users_roles (user_id, role_id) values (1, 2);
+insert into racsdb.users_roles (user_id, role_id) values (1, 1);
