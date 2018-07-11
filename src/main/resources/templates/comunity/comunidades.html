@@ -15,7 +15,7 @@
 		
 		<div class="col-lg-8 layout-rigth">
 			<div class="col-lg-12">
-				<nav aria-label="breadcrumb">
+				<nav aria-label="breadcrumb" class = "nav_breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a th:href="@{/sso}">Inicio</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Comunidades</li>
@@ -27,8 +27,8 @@
 					<div class="row">
 						<div class="col-lg-12 layout-title">
 							<h3>LISTA DE COMUNIDADES</h3>
+							<hr/>
 						</div>
-						
 						<div class="col-lg-12">
 							<br/><br/>
 							<div class="plus">
@@ -42,7 +42,7 @@
 							<table id="myDataTable" class="table table-hover">
 								<thead>
 							            <tr>
-							                <td align="center" ><b>Id</b></td>
+							                
 							                <td align="center"> <b>Nombre Comunidad</b> </td>
 							                <td align="center"><b>Tipo Comunidad</b></td>  
 							                <td align="center"><b>Ver</b></td>
@@ -59,7 +59,7 @@
 								  </tbody>
 								  <tbody th:if="${not #lists.isEmpty(comunidades)}">
 						            <tr th:each="comunidad : ${comunidades}">
-						                <td align="center" th:text="${comunidad.id}"><a href="/sso/comunidad/${comunidad.id}">Id</a></td>
+						               
 						                <td align="center" th:text="${comunidad.nameComunity}">Nombre Comunidad</td>
 						                <td align="center" th:text="${comunidad.typeComunity}">Tipo Comunidad</td>
 						                
