@@ -129,13 +129,13 @@ hr {
 
 /* Redefine los estilos de .btn-login*/
 .btn-login {
-  color: white;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #64b1b9;
-  border: 1px solid #64b1b9;
-  border-radius: 5px;
-  padding: 8px 20px;
-  font-weight: 500;
+	color: #F2B705;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	background-color: #2D343A;
+	border: 1px solid #F2B705;
+	border-radius: 5px;
+	padding: 8px 20px;
+	font-weight: 500;
 }
 
 .btn-inline{
@@ -170,15 +170,16 @@ li .nav-link:hover {
 	text-align: center;
 }
 li .active {
-	background-color: #ffffff;
+	background-color: #F2B705;
 	color: #181818 !important;
 }
 
 .breadcrumb {
 	background-color: #ffffff;
-	padding: 0.75rem 0;
-	margin-bottom: 0px;
+	padding: 0.75rem 1rem;
+	margin-bottom:  1rem;
 	background-color: #e9ecef;
+
 }
 
 .breadcrumb-item a {
@@ -191,7 +192,7 @@ li .active {
 	
 a{
   text-decoration: none !important;
-  color: inherit !important;
+ color: inherit !important;
 }
 
 
@@ -300,7 +301,7 @@ input:not ([type] ):focus:not ([readonly] ) +label, input[type=text]:not
 
 .titleForm > p{
 	margin:0 !important;
-	color: #64b1b9 !important;
+	color: #F2B705 !important;
 	text-transform: uppercase;
 	font-weight: 900;
 	font-size: 16px;
@@ -440,11 +441,24 @@ body{
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    padding: .75rem 1rem;
+    padding: 1rem 0rem 0rem 0rem;
     margin-bottom: 1rem;
     list-style: none;
     background-color: #e9ecef;
     border-radius: .25rem;
  
  }
- 
+
+li .nav-link:hover {
+
+    color: #2D343A !important;
+    text-align: center;
+    background-color: #F2B705 !important;
+
+}
+ a.navv:focus, a.navv:hover {
+
+    color: #F2B705 !important;
+    text-decoration: underline;
+
+}
