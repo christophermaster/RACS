@@ -29,7 +29,7 @@ Studio F Colors
 
 body {
 	background-color: #fff;
-	color: #8c8c8c;
+	color: #2D343A;
 }
 
 hr {
@@ -291,12 +291,12 @@ input:not ([type] ):focus:not ([readonly] ) +label, input[type=text]:not
     color: white !important;
 }
 
-.titleForm{
-	background-color: #fff !important;
-	color: #000000 !important;
-	text-align: center !important;
-	padding: 1.3rem;
-	/*margin-top: 50%;*/
+.titleForm {
+    background-color: #2D343A !important;
+    text-align: center !important;
+    padding: 1.3rem;
+    border: 1px solid #F2B705;
+    border-radius: 20px 20px 0 0 !important;
 }
 
 .titleForm > p{
@@ -307,10 +307,11 @@ input:not ([type] ):focus:not ([readonly] ) +label, input[type=text]:not
 	font-size: 16px;
 }
 
-.bodyForm{
-	background-color: white !important;
-	padding: 4rem !important;
-	text-align: center !important;
+.bodyForm {
+    background-color: #e9ecef !important;
+    padding: 4rem !important;
+    text-align: center !important;
+    border: 1px solid #F2B705;
 }
 
 .alertify-notifier .ajs-message.ajs-success{
@@ -461,4 +462,54 @@ li .nav-link:hover {
     color: #F2B705 !important;
     text-decoration: underline;
 
+}
+/*pager style - table*/
+a.paginate_button.current {
+    background: #2D343A !important;
+    border: 1.3px solid #F2B705 !important;
+}
+
+#myDataTable_wrapper select {
+    border: 1px solid #F2B705 !important;
+}
+
+input[type="search"] {
+    border: 1px solid #F2B705 !important ;
+}
+
+/*titulo*/
+h3{
+	color :#2D343A !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: #2D343A !important;
+    border: 1px solid #fff !important;
+    background: linear-gradient(to bottom, #F2B705 0%, #F2B705 100%)  !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper 
+.dataTables_paginate .paginate_button.current:hover {
+    color: #fff !important;
+}
+tr:hover {
+    background: #F2B7051A !important;
+    color: #2D343A;
+}
+.ico-colorlist , .ico-colornew{
+    color: #F2B705 !important;
+}
+.btn, .btn:default ,.btn-default:hover{
+    color: #F2B705 !important;
+    background-color: #2D343A;
+    border: 1px solid #F2B705;
+}
+
+tbody{
+	
+	color: #2D343A !important;
+	
+}
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper 
+.dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+    color: #576169 !important;
 }
