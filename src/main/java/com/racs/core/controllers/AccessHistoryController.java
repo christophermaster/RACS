@@ -5,6 +5,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.racs.commons.bean.Notification;
+import com.racs.commons.helper.ConnectionFTP;
+import com.racs.commons.helper.ConnectionSQlite;
 import com.racs.core.entities.AccessHistoryEntity;
 import com.racs.core.services.AccessHistoryService;
 import com.racs.core.services.OwnerService;
@@ -31,16 +37,34 @@ public class AccessHistoryController {
     private AccessHistoryEntity access;
     private OwnerService ownerService;
     private Notification notification;
+    
+    private ConnectionSQlite connectionSQlite;
+    
+	private ConnectionFTP connectionFTP;
 
-    @Autowired
-	public void setAccessHistoryService(AccessHistoryService accessHistoryService,
-			OwnerService ownerService) {
+    
+	@Autowired
+    public void setAccessHistoryService(AccessHistoryService accessHistoryService) {
 		this.accessHistoryService = accessHistoryService;
+	}
+
+	@Autowired
+	public void setOwnerService(OwnerService ownerService) {
 		this.ownerService = ownerService;
 	}
-   
 
-    /**
+
+	@Autowired
+    public void setConnectionFTP(ConnectionFTP connectionFTP) {
+		this.connectionFTP = connectionFTP;
+	}
+
+	@Autowired
+	public void setConnectionSQlite(ConnectionSQlite connectionSQlite) {
+		this.connectionSQlite = connectionSQlite;
+	}
+
+	/**
      * List all products.
      *
      * @param model
@@ -102,7 +126,7 @@ public class AccessHistoryController {
     @RequestMapping("/sso/historial/nuevo")
     public String newAccessHistory(Model model) {
     	
-    	System.out.println("AQUIIIIIIII 1" );
+  
      	model.addAttribute("propietarios", ownerService.listAllOwner());
         model.addAttribute("historial", new AccessHistoryEntity());
         return "history/historialform";
@@ -174,6 +198,64 @@ public class AccessHistoryController {
     	
     	
     	 return "history/historicos";
+    }
+    
+    @RequestMapping("/sso/historial/sincronizar")
+    public String sincronizarDatos(Model model) throws Exception {
+    	
+    	connectionFTP.connectionDownloadFTP();
+    	notification = new Notification();
+    	
+    	if (selectAll() != false){
+    	    notification.alert("1", "SUCCESS","Sincronizacón Exitosa");
+    	}else {
+    		notification.alert("1", "ERROR","Sincronizacón Fallida");
+    	}
+    	
+    	model.addAttribute("notification", notification);
+        model.addAttribute("historicos", accessHistoryService.listAllAccessHistory());
+
+        
+    	 return "history/historicos";
+    }
+    
+    
+    
+    
+    public Boolean selectAll() throws Exception{
+    	
+        String sql = "SELECT * FROM COMMUNITY"; 
+        
+        try {
+        	
+	    	 Connection conn = connectionSQlite.connectSqlite();
+	    	 
+	    	 if(conn != null) {
+	    		 
+	    		 Statement stmt  = conn.createStatement();
+	    	     
+		         ResultSet rs    = stmt.executeQuery(sql);
+		        
+		        // loop through the result set
+		        while (rs.next()) {
+		            System.out.println(rs.getInt("COM_ID") +  "\t" + 
+		                               rs.getString("COM_NOMBRE") + "\t" +
+		                               rs.getString("COM_TIPOCOMUNIDAD"));
+		            
+		        }
+		        
+		        return true;
+ 
+	    	 }else{
+	    		
+	    	    	
+	    		 return false;
+	    	 }
+	        
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
     
     
