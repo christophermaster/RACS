@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.racs.commons.bean.Notification;
+import com.racs.core.entities.OwnerEntity;
 import com.racs.core.entities.OwnershipEntity;
 import com.racs.core.services.OwnerService;
 import com.racs.core.services.OwnershipService;
@@ -91,6 +92,9 @@ public class OwnershipController {
     	
     	ownership = new OwnershipEntity();
     	notification = new Notification();
+    	OwnerEntity owner = new OwnerEntity();
+    	
+    	
     	
     	if(ownershipEntity.getId() != null) {
 			
@@ -102,6 +106,9 @@ public class OwnershipController {
 					"Propiedad: ".concat(ownership.getOwnershipNumber()).concat(" Actualizado de forma EXITOSA"));
 			
 		}else {
+			
+			owner = ownerService.getOwnerById(ownershipEntity.getOwnerEntity().getId());
+			ownershipEntity.setOwnerEntity(owner);
 			
 			ownershipService.saveOwner(ownershipEntity);
 			ownership = ownershipService.getOwnerById(ownershipEntity.getId());

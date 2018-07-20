@@ -24,6 +24,7 @@ import com.racs.commons.bean.Notification;
 import com.racs.commons.helper.ConnectionFTP;
 import com.racs.commons.helper.ConnectionSQlite;
 import com.racs.core.entities.AccessHistoryEntity;
+import com.racs.core.entities.OwnerEntity;
 import com.racs.core.services.AccessHistoryService;
 import com.racs.core.services.OwnerService;
 
@@ -64,6 +65,7 @@ public class AccessHistoryController {
 		this.connectionSQlite = connectionSQlite;
 	}
 
+
 	/**
      * List all products.
      *
@@ -90,7 +92,9 @@ public class AccessHistoryController {
     public String showAccessHistory(@PathVariable Integer id, Model model) {
     	AccessHistoryEntity accessHistoryEntity;
     	accessHistoryEntity = accessHistoryService.getAccessHistoryById(id);
+    	
     	byte[] data = accessHistoryEntity.getPhotho();
+    	System.out.println("aqui" + data + "aqui");
 		try {
 			ByteArrayInputStream bis = new ByteArrayInputStream(data);
 	        BufferedImage bImage2;
@@ -224,8 +228,11 @@ public class AccessHistoryController {
     
     public Boolean selectAll() throws Exception{
     	
-        String sql = "SELECT * FROM COMMUNITY"; 
-        
+        access = new AccessHistoryEntity() ;
+        OwnerEntity owner = new OwnerEntity();
+  
+        String sql = "SELECT * FROM accesshistory"; 
+
         try {
         	
 	    	 Connection conn = connectionSQlite.connectSqlite();
@@ -235,13 +242,21 @@ public class AccessHistoryController {
 	    		 Statement stmt  = conn.createStatement();
 	    	     
 		         ResultSet rs    = stmt.executeQuery(sql);
-		        
+		       
 		        // loop through the result set
 		        while (rs.next()) {
-		            System.out.println(rs.getInt("COM_ID") +  "\t" + 
-		                               rs.getString("COM_NOMBRE") + "\t" +
-		                               rs.getString("COM_TIPOCOMUNIDAD"));
-		            
+		        
+		        	access.setDate(rs.getString("date"));
+		        	access.setHour(rs.getString("hour"));
+		        	access.setPhotho(rs.getBytes("photho"));
+		        	access.setTypeaccess(rs.getString("typeaccess"));
+		        	access.setTypesecurity(rs.getString("typesecurity"));
+		        	owner = ownerService.getOwnerById(rs.getInt("own_id"));
+		        	access.setOwnerEntity(owner);
+		        
+		            accessHistoryService.saveAccessHistory(access);
+		            access = new AccessHistoryEntity() ;
+		            owner = new OwnerEntity();
 		        }
 		        
 		        return true;

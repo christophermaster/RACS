@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.racs.commons.bean.Notification;
+import com.racs.core.entities.OwnerEntity;
 import com.racs.core.entities.VehicleEntity;
 import com.racs.core.services.OwnerService;
 import com.racs.core.services.VehicleService;
@@ -89,6 +90,9 @@ public class VehicleController {
     	
     	vehicle = new VehicleEntity();
     	notification = new Notification();
+    	OwnerEntity owner = new OwnerEntity();
+    	
+    	
     	if(vehicleEntity.getId() != null) {
 			
     		vehicleService.saveVehicle(vehicleEntity);
@@ -99,6 +103,9 @@ public class VehicleController {
 					"Vehiculo: ".concat(vehicle.getLecenseplateVehicle()).concat(" Actualizado de forma EXITOSA"));
 			
 		}else {
+			
+			owner = ownerService.getOwnerById(vehicleEntity.getOwnerEntity().getId());
+			vehicleEntity.setOwnerEntity(owner);
 			
 			vehicleService.saveVehicle(vehicleEntity);
     		vehicle = vehicleService.getVehicleById(vehicleEntity.getId());

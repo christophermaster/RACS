@@ -57,15 +57,14 @@
 						    	</div>
 						    	
 						    	<div class = "row">
-							    	<div class="form-group col-lg-4" th:if="${propiedad.inhabited} == true">
+							    	<div class="form-group col-lg-2" th:if="${propiedad.inhabited} == true">
 						                <label class="control-label">Habitado:</label>
-						                <span class="form-control" disabled="disabled ">Si</span>
-						                
+						                <span class="form-control habitado" disabled="disabled ">Si</span>
+						                 
 						            </div>
-						             <div class="form-group col-lg-4" th:if="${propiedad.inhabited} == false">
+						             <div class="form-group col-lg-2" th:if="${propiedad.inhabited} == false">
 						                <label class="control-label">Habitado:</label>
-						                <span class="form-control" disabled="disabled" >No</span>
-						                
+						                <span class="form-control habitado" disabled="disabled" >No</span>
 						            </div>
 						            <div class="form-group col-lg-4">
 						                <label class="control-label">Area:</label>

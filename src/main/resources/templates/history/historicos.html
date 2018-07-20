@@ -64,7 +64,7 @@
 										</tr>
 								</tbody>
 						        <tbody th:if="${not #lists.isEmpty(historicos)}">
-						         	<tr th:each="historial: ${historicos}">
+						           <tr th:each="historial: ${historicos}">
 						               <td align="center" th:text="${historial.ownerEntity.nameOwner}">Nombre del Propietario</td>
 						                <td align="center" th:text="${historial.date}">Fecha</td>
 						                <td align="center" th:text="${historial.hour}">Hora</td>

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.racs.commons.bean.Notification;
+import com.racs.core.entities.ComunityEntity;
 import com.racs.core.entities.OwnerEntity;
 import com.racs.core.services.ComunityService;
 import com.racs.core.services.OwnerService;
@@ -94,6 +95,10 @@ public class OwnerController {
     	
     	owner = new OwnerEntity();
     	notification = new Notification();
+    	ComunityEntity comunity = new ComunityEntity();	
+    	
+    	
+    	
     	if(ownerEntity.getId() != null) {
 			
     		ownerService.saveOwner(ownerEntity);
@@ -104,10 +109,12 @@ public class OwnerController {
 					"Propietario: ".concat(owner.getNameOwner()).concat(" Actualizado de forma EXITOSA"));
 			
 		}else {
-			
+			comunity = comunityService.getComunityById(ownerEntity.getComunityEntity().getId());
+	    	ownerEntity.setComunityEntity(comunity);
 			ownerService.saveOwner(ownerEntity);
 			owner = ownerService.getOwnerById(ownerEntity.getId());
 			
+			System.out.println(owner.getComunityEntity().getNameComunity());
 			
 			notification.alert("1", "SUCCESS",
 					"Propietario: ".concat(owner.getNameOwner()).concat(" Guardado de forma EXITOSA"));

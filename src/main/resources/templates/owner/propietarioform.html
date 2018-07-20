@@ -56,28 +56,34 @@
 								         <label class="control-label">Apellido:</label> 
 								      	 <div >
 								            <input type="text" class="form-control" th:field="*{lastNameOwner}" pattern="[A-Za-z]{3,}"
-								             maxlength="30" title ="Solo letra" required="required"/>
+								             maxlength="30" title ="Solo letra o Apellido muy corto" required="required"/>
 								         </div>
 								      </div>
 								      					       
-							       	 <div class="form-group col-lg-3 cedula">
+							       	 <div class="form-group col-lg-4 cedula">
 							            <label class=" control-label">Número de identificacion:</label>
-							      		<div >
-							                 <input type="text" pattern="[0-9]{7,}" maxlength="10" class="form-control" th:field="*{identificationNumberOwner}" required="required" title="Ej: 1234567" />
-							            </div>
-							          </div>
-							          
-							          <div class="form-group col-lg-1">
-							          
-									      <label class="control-label">  </label>
-								          <div class="md-form">
-									            <select class="selectpicker show-menu-arrow tipoC" th:field="*{typeIdentificationNumberOwner}">
+							         		
+							         	<div class="col-lg-10 num">
+							         		<input type="text" pattern="[0-9]{7,}" class="form-control" th:field="*{identificationNumberOwner}" title="Ej: 1234567"  required="required" />         
+									             
+							         	</div>
+							         	<div class="col-lg-2 tiponum">
+							         	 <select class="selectpicker show-menu-arrow tipoC" th:field="*{typeIdentificationNumberOwner}">
 												  <option value = "V">V</option>
 												  <option value = "E">E</option>
 												  <option value = "J">J</option>
-												</select>
-								          </div>
-								      </div>
+										 </select>
+							         	</div>
+									      		
+									           
+								     	   
+							          </div>
+							          
+							        <!--   <div class="form-group col-lg-1">
+							          
+									      <label class="control-label">  </label>
+
+								      </div>-->
 								      
 								      
 						         </div>  
@@ -87,7 +93,7 @@
 									<div class="form-group col-lg-4">
 						              <label class="control-label">Nombre de Comunidad:</label>
 									  <div>
-						                   <select class="selectpicker show-menu-arrow" th:field="*{comunityEntity.id}" required="required" >
+						                   <select class="selectpicker show-menu-arrow comunidades" th:field="*{comunityEntity.id}" required="required" >
 						                  	  <option value="">Seleccione Comunidad</option>
 											  <option th:each="comunidad : ${comunidades}"  th:value ="${comunidad.id}" th:utext="${comunidad.nameComunity}">
 											  </option>

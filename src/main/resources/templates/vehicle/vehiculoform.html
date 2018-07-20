@@ -46,7 +46,7 @@
 					             <div class="form-group col-lg-4">
 					                <label class="control-label">Nombre de Propietario:</label>
 					                <div>
-					                   <select class="selectpicker show-menu-arrow" th:field="*{ownerEntity.id}" required="required" >
+					                   <select class="selectpicker show-menu-arrow select" th:field="*{ownerEntity.id}" required="required" >
 					                  	  <option value="">Seleccione Propietario</option>
 										  <option th:each="propietario : ${propietarios}"  th:value ="${propietario.id}" 
 										  th:utext="${propietario.nameOwner} +' ' + ${propietario.lastNameOwner} ">
