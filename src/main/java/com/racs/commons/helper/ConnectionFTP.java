@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConnectionFTP  {
 	
-	private String server = "10.0.0.53";
+	private String server = "10.0.0.32";
 	private int port = 2121;
 	private String user = "admin";
 	private String pass = "12345";
@@ -33,7 +33,7 @@ public class ConnectionFTP  {
 	        ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
 	
 	     
-	        String remoteFile1 = "/data/data/com.sandro.openalprsample/databases/ReconocimientoPlaca.db";
+	        String remoteFile1 = "/data/data/com.disca.openalprsample/databases/ReconocimientoPlaca.db";
 	        File downloadFile1 = new File("C:\\Users\\ESTACION1\\Desktop\\proyec\\ReconocimientoPlaca.db");
 	        OutputStream outputStream1 = new BufferedOutputStream(new FileOutputStream(downloadFile1));
 	        boolean success = ftpClient.retrieveFile(remoteFile1, outputStream1);

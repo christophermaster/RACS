@@ -246,12 +246,12 @@ public class AccessHistoryController {
 		        // loop through the result set
 		        while (rs.next()) {
 		        
-		        	access.setDate(rs.getString("date"));
-		        	access.setHour(rs.getString("hour"));
-		        	access.setPhotho(rs.getBytes("photho"));
-		        	access.setTypeaccess(rs.getString("typeaccess"));
-		        	access.setTypesecurity(rs.getString("typesecurity"));
-		        	owner = ownerService.getOwnerById(rs.getInt("own_id"));
+		        	access.setDate(rs.getString("HIS_DATE"));
+		        	access.setHour(rs.getString("HIS_HOUR"));
+		        	access.setPhotho(rs.getBytes("HIS_PHOTO"));
+		        	access.setTypeaccess(rs.getString("HIS_TYPEACCESS"));
+		        	access.setTypesecurity(rs.getString("HIS_TYPESECURITY"));
+		        	owner = ownerService.getOwnerById(rs.getInt("OWN_ID"));
 		        	access.setOwnerEntity(owner);
 		        
 		            accessHistoryService.saveAccessHistory(access);
