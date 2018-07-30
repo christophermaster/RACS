@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:td="http://www.tdymeleaf.org">
 <head lang="en">
-<title>Propietarios</title>
+<title>Dispositivos</title>
 <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
 <meta name="viewport" content="widtd=device-widtd, initial-scale=1" />
 </head>
@@ -18,24 +18,24 @@
 				<nav aria-label="breadcrumb"  class = "nav_breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a class="navv" th:href="@{/sso}">Inicio</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Propietarios</li>
+						<li class="breadcrumb-item active" aria-current="page">Dispositivos</li>
 					</ol>
 				</nav>
 			</div>
 			
-			<div th:fragment="listapropietarioinclude">
+			<div th:fragment="listadispositivoinclude">
 				<div class="col-lg-12">
 					<div class="row">
 						<div class="col-lg-12 layout-title">
-							<h3>LISTA DE PROPIETARIOS</h3>
+							<h3>LISTA DE DISPOSITIVOS</h3>
 							<hr/>
 						</div>
 						<div class="col-lg-12">
 							<br/><br/>
 							<div class="plus">
-								<a href="#" th:href="@{/sso/propietario/nuevo}"> <span
+								<a href="#" th:href="@{/sso/dispositivo/nuevo}"> <span
 									class="glyphicon glyphicon-plus-sign ico-colornew"
-									data-toggle="tooltip" title="Nuevo Propietario"></span>
+									data-toggle="tooltip" title="Nuevo Dispositivo"></span>
 								</a>
 							</div>
 						</div>
@@ -46,42 +46,45 @@
 								<thead>
 									<tr>
 									
-						                <td align="center" ><b>Nombre</b></td>
-						                <td align="center" ><b>Apellido</b></td>  
-						                <td align="center" ><b>Cedula</b></td> 
+						                <td align="center" ><b>Serial</b></td>
+						                <td align="center" ><b>IP</b></td>  
+						                <td align="center" ><b>Puerto</b></td> 
 						                <td align="center" ><b>Comunidad</b></td>   
+						                <td align="center" ><b>Estado</b></td> 
 						                <td align="center" ><b>Ver</b></td>
 						                <td align="center" ><b>Editar</b></td>
 						                <td align="center" ><b>Eliminar</b></td>
 									</tr>
 								</thead>
-								<tbody th:if="${#lists.isEmpty(propietarios)}">
+								<tbody th:if="${#lists.isEmpty(dispositivos)}">
 									
 									<tr>
 										<td colspan="7" class="text-center">
-											El sistema aún no contiene propietarios
+											El sistema aún no contiene dispositivos
 										</td>
 									</tr>
 								
 								</tbody>
-								<tbody th:if="${not #lists.isEmpty(propietarios)}">
+								<tbody th:if="${not #lists.isEmpty(dispositivos)}">
 								
-									<tr th:each="propietario : ${propietarios}">
-						                <td  align="center" th:text="${propietario.nameOwner}">Nombre</td>
-						                <td  align="center" th:text="${propietario.lastNameOwner}">Apellido</td>
-						                <td  align="center" th:text="${propietario.identificationNumberOwner}">Cedula</td>
-						                <td  align="center" th:text="${propietario.comunityEntity.nameComunity}">Comunidad</td>
-						                
-						                <td  align="center"><a th:href="@{/sso/propietario/} + ${propietario.id}"><span
+									<tr th:each="dispositivo : ${dispositivos}">
+						                <td  align="center" th:text="${dispositivo.serialDevice}">Serial</td>
+						                <td  align="center" th:text="${dispositivo.ipFTP}">IP</td>
+						                <td  align="center" th:text="${dispositivo.portFTP}">Puerto</td>
+						                <td  align="center" th:text="${dispositivo.comunityEntity.nameComunity}">Comunidad</td>
+						                <td align="center" th:if = "${dispositivo.stateDevice} == true"  th:text="Activo">Estado</td>
+					                	<td align="center" th:if = "${dispositivo.stateDevice} == false"  th:text="Desactivado">Estado</td>
+					                
+						                <td  align="center"><a th:href="@{/sso/dispositivo/} + ${dispositivo.id}"><span
 											
 														class="glyphicon glyphicon-eye-open ico-colorlist"
 														data-toggle="tooltip" title="Ver"></span></a></td>
 														
-						                <td  align="center"><a th:href="@{/sso/propietario/editar/} + ${propietario.id}"><span
+						                <td  align="center"><a th:href="@{/sso/dispositivo/editar/} + ${dispositivo.id}"><span
 														class="glyphicon glyphicon-pencil ico-colorlist"
 														data-toggle="tooltip" title="Editar"></span></a></td>
 														
-						                <td align="center"><a th:href ="@{/sso/propietario/eliminar/} + ${propietario.id}" class="delete">
+						                <td align="center"><a th:href ="@{/sso/dispositivo/eliminar/} + ${dispositivo.id}" class="delete">
 							                <span class="glyphicon glyphicon-remove-sign ico-colorlist"
 											data-toggle="tooltip" title="Eliminar"></span></a></td>
 						            </tr>

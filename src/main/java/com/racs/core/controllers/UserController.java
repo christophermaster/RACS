@@ -492,8 +492,8 @@ public class UserController {
 				//envio correo
 				if(sendEmailToken(request, token, userSsoRef.getEmail())){
 					//almaceno token
-					//userSsoRef.setToken(token);
-					//userSsoRef.setTokenDateValidate(new Date(System.currentTimeMillis() + 3600000));
+					userSsoRef.setToken(token);
+					userSsoRef.setTokenDateValidate(new Date(System.currentTimeMillis() + 3600000));
 					userSsoService.saveUserSso(userSsoRef);
 					notification.alert("1", "SUCCES", "Se ha enviado un correo electrónico a la dirección especificada.");
 					model.addAttribute("accion", "envioToken");
@@ -523,8 +523,8 @@ public class UserController {
 			if (sendEmailToken(token, userSso.getEmail())) {
 				// almaceno token
 				userSsoRef = userSsoService.findUserSsoByUsername(userSso.getUsername());
-				//userSsoRef.setToken(token);
-				//userSsoRef.setTokenDateValidate(new Date(System.currentTimeMillis() + 3600000));
+				userSsoRef.setToken(token);
+				userSsoRef.setTokenDateValidate(new Date(System.currentTimeMillis() + 3600000));
 				userSsoService.saveUserSso(userSsoRef);
 			}
 		} catch (SisDaVyPException e) {
@@ -545,7 +545,7 @@ public class UserController {
 			model.addAttribute("userSso", new User());
 			return "login";
 		}else{
-			if (Boolean.TRUE) {
+			if (Boolean.FALSE) {
 				notification.alert("1", "ERROR", "El código de recuperación de contraseña ya expiro, adquiera uno nuevo.");
 				model.addAttribute("accion", "olvido");
 				model.addAttribute("notification", notification);

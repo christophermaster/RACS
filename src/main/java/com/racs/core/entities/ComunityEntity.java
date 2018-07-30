@@ -37,6 +37,9 @@ public class ComunityEntity implements Serializable{
 	@OneToMany(mappedBy = "comunityEntity", cascade = CascadeType.ALL)  
 	private List<OwnerEntity> ownerlist = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "comunityEntity", cascade = CascadeType.ALL)  
+	private List<DeviceEntity> deviceEntity = new ArrayList<>();
+	
 
 	public ComunityEntity() {
 		
