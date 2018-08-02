@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:td="http://www.tdymeleaf.org">
+<head lang="en">
+<title>Dispositivos</title>
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+<meta name="viewport" content="widtd=device-widtd, initial-scale=1" />
+</head>
+<body>
+
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div class="row layout">
+		<div class="col-lg-2 layout-left">
+			<!--/*/ <th:block th:include="fragments/layout-left :: layout-left"></th:block> /*/-->
+		</div>
+		
+		<div class="col-lg-8 layout-rigtd">
+			<div class="col-lg-12">
+				<nav aria-label="breadcrumb"  class = "nav_breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a class="navv" th:href="@{/sso}">Inicio</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Sincronizacion</li>
+					</ol>
+				</nav>
+			</div>
+			
+			<div th:fragment="listadispositivoinclude">
+				<div class="col-lg-12">
+					<div class="row">
+						<div class="col-lg-12 layout-title">
+							<h3>LISTA DE DISPOSITIVOS</h3>
+							<hr/>
+						</div>
+						
+						<div class="col-lg-12 table-responsive">
+							<table id="myDataTable" class="table table-hover">
+							
+								<thead>
+									<tr>
+									
+						                <td align="center" ><b>Serial</b></td>
+						                <td align="center" ><b>IP</b></td>  
+						                <td align="center" ><b>Puerto</b></td> 
+						                <td align="center" ><b>Comunidad</b></td>   
+						                <td align="center" ><b>Estado</b></td> 
+						                <td align="center" ><b>Sincronizar</b></td>
+						             
+									</tr>
+								</thead>
+								<tbody th:if="${#lists.isEmpty(dispositivos)}">
+									
+									<tr>
+										<td colspan="7" class="text-center">
+											El sistema aún no contiene dispositivos
+										</td>
+									</tr>
+								
+								</tbody>
+								<tbody th:if="${not #lists.isEmpty(dispositivos)}">
+								
+									<tr th:each="dispositivo : ${dispositivos}">
+						                <td  align="center" th:text="${dispositivo.serialDevice}">Serial</td>
+						                <td  align="center" th:text="${dispositivo.ipFTP}">IP</td>
+						                <td  align="center" th:text="${dispositivo.portFTP}">Puerto</td>
+						                <td  align="center" th:text="${dispositivo.comunityEntity.nameComunity}">Comunidad</td>
+						                <td align="center" th:if = "${dispositivo.stateDevice} == true"  th:text="Activo">Estado</td>
+					                	<td align="center" th:if = "${dispositivo.stateDevice} == false"  th:text="Desactivado">Estado</td>
+					                
+						                <td  align="center"><a th:href="@{/sso/sincronizacion/} + ${dispositivo.id}" id="btnCargar" name="btnCargar" type="submit"><span
+											
+														class="glyphicon glyphicon-arrow-down ico-colorlist"
+														data-toggle="tooltip" title="Sincronizar"></span></a></td>
+						            </tr>
+								
+								</tbody>
+							
+							</table>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
+
+<script type="text/javascript">
+
+    // <![CDATA[
+    $(document).ready(function(){
+
+        $("#btnCargar").click(function () {
+                $("body").addClass("loading");
+            
+        });
+
+    });
+    // ]]>
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('#myDataTable').DataTable({
+            "ordering": false,
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "No hay registros para mostrar",
+                "info": "Página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay registros disponibles",
+                "infoFiltered": "(Filtrado desde _MAX_ total)",
+                "paginate": {
+                    "previous": "Ant.",
+                    "next": "Sig.",
+                    "first": "Primer"
+                },
+                "search": "Buscar:",
+            }
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

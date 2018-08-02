@@ -8,25 +8,24 @@ import java.io.OutputStream;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ConnectionFTP  {
 	
-	private String server = "10.0.0.32";
+	/*private String server = "10.0.0.32";
 	private int port = 2121;
 	private String user = "admin";
-	private String pass = "12345";
+	private String pass = "12345";*/
 	private FTPClient ftpClient = new FTPClient();
 	
 	public ConnectionFTP(){} 
 	
 	
-    public void connectionDownloadFTP() {
+    public void connectionDownloadFTP(String server,Integer port, String user,String pass) {
     
 	    try {
-	
+	    	System.out.println("Conexion->>>>>>>>"+server+port+user+pass);
 	        ftpClient.connect(server, port);
 	        ftpClient.login(user, pass);
 	        ftpClient.enterLocalPassiveMode();

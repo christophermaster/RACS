@@ -35,8 +35,8 @@ import com.racs.core.services.OwnerService;
 public class AccessHistoryController {
 
     private AccessHistoryService accessHistoryService;
-    private AccessHistoryEntity access;
     private OwnerService ownerService;
+    private AccessHistoryEntity access;
     private Notification notification;
     
     private ConnectionSQlite connectionSQlite;
@@ -207,7 +207,7 @@ public class AccessHistoryController {
     @RequestMapping("/sso/historial/sincronizar")
     public String sincronizarDatos(Model model) throws Exception {
     	
-    	connectionFTP.connectionDownloadFTP();
+    	//connectionFTP.connectionDownloadFTP();
     	notification = new Notification();
     	
     	if (selectAll() != false){

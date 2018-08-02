@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+<title>Datos de la Comunidad</title>
+
+<!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+
+</head>
+<body>
+	<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+	<div class="row layout">
+		<div class="col-lg-2 layout-left">
+			<!--/*/ <th:block th:include="fragments/layout-left :: layout-left"></th:block> /*/-->
+		</div>
+		<div class="col-lg-8 layout-rigth">
+			<div class="col-lg-12">
+				<nav aria-label="breadcrumb"  class = "nav_breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a class="navv" th:href="@{/sso}">Inicio</a></li>
+						<li class="breadcrumb-item"><a class="navv" th:href="@{/sso/dispositivos}">Dispositivos</a></li>
+						<li class="breadcrumb-item active" aria-current="page"><span th:text="${dispositivo.serialDevice}"></span></li>
+					</ol>
+				</nav>
+			</div>
+			
+			<div th:fragment="dispositivoshow">
+				<div class="col-lg-12">
+					<div class="row">
+						<div class="col-lg-12 layout-title">
+							<h3>DATOS DEL DISPOSITIVO</h3>
+							<hr/>
+						</div>
+						<div  class="col-lg-12" >
+						 	<form class="form-horizontal">
+						 	
+						 		<div class= "row">
+							 	    <div class="form-group col-lg-4">
+						                <label class="control-label">Serial:</label>
+						                <span  class="form-control" th:text="${dispositivo.serialDevice}" disabled="disabled "></span>
+						               
+						            </div>
+						            
+						            <div class="form-group col-lg-4">
+						                <label class="control-label">IP:</label>
+						                 <span  class="form-control" th:text="${dispositivo.ipFTP}" disabled="disabled "></span>
+						                
+						            </div>
+						            <div class="form-group col-lg-4">
+						                <label class="control-label">Puerto:</label>
+						                <span class="form-control" th:text="${dispositivo.portFTP}" disabled="disabled "></span>
+						            
+						            </div>
+						 		
+						 		</div>
+						 		
+						 		 <div class = "row">
+						         
+						          	<div class="form-group col-lg-4" >
+								         <label class="control-label">Usuario de Conexi&oacute;n:</label>
+								          
+								      	 <div >
+								           <span class="form-control" th:text="${dispositivo.userFTP}" disabled="disabled "></span>
+								         </div>
+								      </div>
+								     <div class="form-group col-lg-4" >
+								         <label class="control-label">Contrase&ntilde;a de Conexi&oacute;n:</label>
+								          
+								      	 <div >
+								            <span class="form-control" th:text="${dispositivo.passFTP}" disabled="disabled "></span>
+								         </div>
+								      </div>
+								      <div class="form-group col-lg-4" th:if="${dispositivo.stateDevice} == true">
+						                <label class="control-label">Estado:</label>
+						                <span class="form-control" disabled="disabled ">Activado</span>
+						                 
+						            </div>
+						             <div class="form-group col-lg-4" th:if="${dispositivo.stateDevice} == false">
+						                <label class="control-label">Estado:</label>
+						                <span class="form-control" disabled="disabled" >Desactivado</span>
+						            </div>
+								     
+						         
+						         </div>  
+						 		
+								<div class= "row">
+									
+						            <div class="form-group col-lg-4">
+						                <label class="control-label">Comunidad:</label>
+						                <span class="form-control" th:text="${dispositivo.comunityEntity.nameComunity}" disabled="disabled "></span>
+						           
+						            </div>
+								
+								</div>
+
+         				   </form>
+						
+						
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-lg-12">
+				<div class="row text-center">
+					<a href="#" class="btn btn-default" th:href="@{/sso/dispositivos}" role="button">Aceptar</a>
+				</div>
+			</div>
+		</div>
+	</div>
+<!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
+
+</body>
+</html>

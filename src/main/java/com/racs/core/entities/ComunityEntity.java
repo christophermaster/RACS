@@ -15,6 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Table(name= "COMUNITY")
@@ -34,10 +38,10 @@ public class ComunityEntity implements Serializable{
 	private String typeComunity;
 	
 
-	@OneToMany(mappedBy = "comunityEntity", cascade = CascadeType.ALL)  
+	@OneToMany(mappedBy = "comunityEntity", cascade = CascadeType.ALL) 
 	private List<OwnerEntity> ownerlist = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "comunityEntity", cascade = CascadeType.ALL)  
+	@OneToMany(mappedBy = "comunityEntity", cascade = CascadeType.ALL)
 	private List<DeviceEntity> deviceEntity = new ArrayList<>();
 	
 

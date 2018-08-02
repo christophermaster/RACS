@@ -1,6 +1,8 @@
 package com.racs.core.services;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,15 +10,18 @@ import com.racs.core.entities.ComunityEntity;
 import com.racs.core.repositories.ComunityRepository;
 
 
+
 @Service
 public class ComunityServiceImpl  implements ComunityService{
 
 	private ComunityRepository comunityRepository;
+
 	
 	@Autowired
 	public void setComunityRepository(ComunityRepository comunityRepository) {
 		this.comunityRepository = comunityRepository;
 	}
+	
 	
 	
 	@Override
@@ -42,6 +47,15 @@ public class ComunityServiceImpl  implements ComunityService{
 		// TODO Auto-generated method stub
 		comunityRepository.delete(id);
 	}
+
+
+
+	@Override
+	public List<ComunityEntity> listAllComunity() {
+		// TODO Auto-generated method stub
+		return (List<ComunityEntity>) comunityRepository.findAll();
+	}
+
 
 
 	

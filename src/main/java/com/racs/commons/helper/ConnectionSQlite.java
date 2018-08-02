@@ -17,7 +17,7 @@ public class ConnectionSQlite {
         try {
         	Class.forName ("org.sqlite.JDBC");
             // db parameters
-        	String url = "jdbc:sqlite:C:\\Users\\ESTACION1\\Desktop\\ReconocimientoPlaca.db";
+        	String url = "jdbc:sqlite:C:\\Users\\ESTACION1\\Desktop\\proyec\\ReconocimientoPlaca.db";
             // create a connection to the database
             conn = DriverManager.getConnection(url);
             

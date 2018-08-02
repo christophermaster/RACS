@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "DEVICE",  uniqueConstraints = @UniqueConstraint(columnNames ={"DEV_SERIAL"} ))
 public class DeviceEntity {
@@ -22,6 +24,7 @@ public class DeviceEntity {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="COM_ID")
+	@JsonIgnore
 	private ComunityEntity comunityEntity;
 		
 	@Column(name = "DEV_SERIAL", length=30)

@@ -19,6 +19,10 @@ import javax.persistence.Table;
 
 import org.springframework.context.annotation.Bean;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 
 @Entity
@@ -47,6 +51,7 @@ public class OwnerEntity implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="COM_ID")
+	@JsonIgnore
 	private ComunityEntity comunityEntity;
 
 	@OneToMany(mappedBy = "ownerEntity", cascade = CascadeType.ALL)
