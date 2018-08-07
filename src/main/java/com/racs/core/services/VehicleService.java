@@ -1,5 +1,7 @@
 package com.racs.core.services;
 
+import java.util.List;
+
 import com.racs.core.entities.VehicleEntity;
 
 public interface VehicleService {
@@ -12,5 +14,6 @@ public interface VehicleService {
 	
 	void deleteVehicle(Integer id);
 	
+	List<VehicleEntity> findAllVehicle();
 
 }

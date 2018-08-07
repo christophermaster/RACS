@@ -9,35 +9,44 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.racs.core.entities.AccessHistoryEntity;
 
-import com.racs.core.entities.OwnerEntity;
-import com.racs.core.services.OwnerService;
+import com.racs.core.services.AccessHistoryService;
+
 
 /**
  * Product controller.
  */
 @RestController
-@RequestMapping(value = "/propietario")
-public class OwnerRestController {
+@RequestMapping(value = "/acceso")
+public class AccessHistoryRestController {
 
-    private OwnerService service;
+    private AccessHistoryService service;
+
     
-    @Autowired
-    public void setOwnerService(OwnerService service) {
-        this.service = service;
-        
-    }
-    
+	@Autowired
+    public void setAccessHistoryService(AccessHistoryService service) {
+		this.service = service;
+	}
+
+
     @GetMapping("/listado")
     public ResponseEntity<?> findAll() {
  
-        Iterable<OwnerEntity> result = service.listAllOwner();
+        Iterable<AccessHistoryEntity> result = service.listAllAccessHistory();
         return new ResponseEntity<>(result,  HttpStatus.OK);
         
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByOwner(@PathVariable("id") Integer id) {
-        return new ResponseEntity<>(service.getOwnerById(id),HttpStatus.OK);
+    public ResponseEntity<?> findByComunity(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(service.getAccessHistoryById(id),HttpStatus.OK);
     }
+
+
+
+
+    
+    
+    
 
 }
