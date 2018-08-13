@@ -21,7 +21,7 @@ public class ConnectionSQlite {
             // create a connection to the database
             conn = DriverManager.getConnection(url);
             
-            System.out.println("Connection to SQLite has been established." + conn  );
+             System.out.println("Connection to SQLite has been established." + conn  );
             
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e.getMessage()+ conn);

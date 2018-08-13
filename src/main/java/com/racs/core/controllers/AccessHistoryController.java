@@ -1,49 +1,36 @@
 package com.racs.core.controllers;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Optional;
-
-import javax.imageio.ImageIO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.racs.commons.bean.Notification;
-import com.racs.commons.helper.ConnectionFTP;
-import com.racs.commons.helper.ConnectionSQlite;
+import com.racs.commons.helper.Base64Encoder;
 import com.racs.core.entities.AccessHistoryEntity;
-import com.racs.core.entities.OwnerEntity;
 import com.racs.core.services.AccessHistoryService;
 import com.racs.core.services.OwnerService;
 
 /**
- * Product controller.
+ * Access controller.
  */
 @Controller
 public class AccessHistoryController {
 
+	/*Services*/
     private AccessHistoryService accessHistoryService;
     private OwnerService ownerService;
+    
+    /*Entity*/
     private AccessHistoryEntity access;
-    private Notification notification;
     
-    private ConnectionSQlite connectionSQlite;
+	/*Notification*/
+	private Notification notification;  
     
-	private ConnectionFTP connectionFTP;
 
-    
+	
 	@Autowired
     public void setAccessHistoryService(AccessHistoryService accessHistoryService) {
 		this.accessHistoryService = accessHistoryService;
@@ -55,34 +42,23 @@ public class AccessHistoryController {
 	}
 
 
-	@Autowired
-    public void setConnectionFTP(ConnectionFTP connectionFTP) {
-		this.connectionFTP = connectionFTP;
-	}
-
-	@Autowired
-	public void setConnectionSQlite(ConnectionSQlite connectionSQlite) {
-		this.connectionSQlite = connectionSQlite;
-	}
-
-
 	/**
-     * List all products.
+     * List all Access.
      *
      * @param model
      * @return
      */
     @RequestMapping(value = "/sso/historicos", method = RequestMethod.GET)
     public String list(Model model) {
+    	
         model.addAttribute("historicos", accessHistoryService.listAllAccessHistory());
-        System.out.println("Returning todos:");
         return "history/historicos";
     }
 
 
 
 	/**
-     * View a specific product by its id.
+     * View a specific Access by its id.
      *
      * @param id
      * @param model
@@ -90,30 +66,21 @@ public class AccessHistoryController {
      */
     @RequestMapping("/sso/historial/{id}")
     public String showAccessHistory(@PathVariable Integer id, Model model) {
-    	AccessHistoryEntity accessHistoryEntity;
-    	accessHistoryEntity = accessHistoryService.getAccessHistoryById(id);
+
+    	access = new AccessHistoryEntity();
+
+    	/*obtenemos el acceso por le id */
+    	access = accessHistoryService.getAccessHistoryById(id);
     	
-    	byte[] data = accessHistoryEntity.getPhotho();
-    	System.out.println("aqui" + data + "aqui");
-		try {
-			ByteArrayInputStream bis = new ByteArrayInputStream(data);
-	        BufferedImage bImage2;
-			bImage2 = ImageIO.read(bis);
-			ImageIO.write(bImage2, "jpg", new File("C:\\Users\\ESTACION1\\Desktop\\proyec\\RACSystem\\src\\main\\resources\\static\\images\\output.jpg"));
-		
-			accessHistoryEntity.setRuta("C:\\Users\\ESTACION1\\Desktop\\proyec\\RACSystem\\src\\main\\resources\\static\\images\\output.jpg");
-			System.out.println(accessHistoryEntity.getRuta());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	/*se codifica la imagen para que pueda ser visible y se guarda el path de donde fue decodificada la imagen */
+    	access.setRuta(Base64Encoder.imageToBase64(access.getPhotho()));
       
-        model.addAttribute("historial",accessHistoryEntity);
+        model.addAttribute("historial",access);
         
         return "history/historialshow";
     }
 
-    // Afficher le formulaire de modification du Product
+
     @RequestMapping("/sso/historial/editar/{id}")
     public String editAccessHistory(@PathVariable Integer id, Model model) {
      	model.addAttribute("propietarios", ownerService.listAllOwner());
@@ -122,7 +89,7 @@ public class AccessHistoryController {
     }
 
     /**
-     * New product.
+     * New Access.
      *
      * @param model
      * @return
@@ -137,7 +104,7 @@ public class AccessHistoryController {
     }
 
     /**
-     * Save product to database.
+     * Save Access to database.
      *
      * @param product
      * @return
@@ -148,26 +115,25 @@ public class AccessHistoryController {
     	notification = new Notification();
     	access = new AccessHistoryEntity();
 
-    	Optional<byte[]> binary = toBinary("C:\\Users\\ESTACION1\\Desktop\\imagenes\\8.jpg");
-    	// la imagen se procesó sin problemas y hay datos
+    	Optional<byte[]> binary = Base64Encoder.base64ToImage("C:\\Users\\ESTACION1\\Desktop\\imagenes\\8.jpg");
+    	
+    	// Verificamos si la imagen se proceso sin problema 
+    	
     	if(binary.isPresent()) {
     	    byte[] image = binary.get();
     		accessHistoryEntity.setPhotho(image);
     	}
     	
     	if(accessHistoryEntity.getId() != null) {
-			
-    		accessHistoryService.saveAccessHistory(accessHistoryEntity);
-    		access = accessHistoryService.getAccessHistoryById(accessHistoryEntity.getId());
-			
+					
+    		access = accessHistoryService.saveAccessHistory(accessHistoryEntity);
 			
 			notification.alert("1", "SUCCESS",
 					"El Acceso de: ".concat(access.getOwnerEntity().getNameOwner()).concat(" Actualizado de forma EXITOSA"));
 			
 		}else {
-			
-			accessHistoryService.saveAccessHistory(accessHistoryEntity);
-			access = accessHistoryService.getAccessHistoryById(accessHistoryEntity.getId());
+						
+			access = accessHistoryService.saveAccessHistory(accessHistoryEntity);
 			
 			System.out.println("entidad" + access);
 			notification.alert("1", "SUCCESS",
@@ -182,7 +148,7 @@ public class AccessHistoryController {
     }
 
     /**
-     * Delete product by its id.
+     * Delete Access by its id.
      *
      * @param id
      * @return
@@ -190,13 +156,18 @@ public class AccessHistoryController {
     @RequestMapping("/sso/historial/eliminar/{id}")
     public String deleteAccessHistory(@PathVariable Integer id, Model model) {
     	
+    	notification = new Notification();
+
+    	//Se obtiene el Acceso a eliminar
     	access = accessHistoryService.getAccessHistoryById(id);
+    	
+    	//Se procede a eliminar el Acceso 
     	accessHistoryService.deleteAccessHistory(id);
     	
-    	notification = new Notification();
     	
     	notification.alert("1", "SUCCESS",
 				"El Acceso de " + access.getOwnerEntity().getNameOwner() + " se ha eliminado correctamente.");
+    	
     	model.addAttribute("notification", notification);
     	model.addAttribute("historicos", accessHistoryService.listAllAccessHistory());
     	
@@ -204,91 +175,5 @@ public class AccessHistoryController {
     	 return "history/historicos";
     }
     
-    @RequestMapping("/sso/historial/sincronizar")
-    public String sincronizarDatos(Model model) throws Exception {
-    	
-    	//connectionFTP.connectionDownloadFTP();
-    	notification = new Notification();
-    	
-    	if (selectAll() != false){
-    	    notification.alert("1", "SUCCESS","Sincronizacón Exitosa");
-    	}else {
-    		notification.alert("1", "ERROR","Sincronizacón Fallida");
-    	}
-    	
-    	model.addAttribute("notification", notification);
-        model.addAttribute("historicos", accessHistoryService.listAllAccessHistory());
-
-        
-    	 return "history/historicos";
-    }
-    
-    
-    
-    
-    public Boolean selectAll() throws Exception{
-    	
-        access = new AccessHistoryEntity() ;
-        OwnerEntity owner = new OwnerEntity();
-  
-        String sql = "SELECT * FROM accesshistory"; 
-
-        try {
-        	
-	    	 Connection conn = connectionSQlite.connectSqlite();
-	    	 
-	    	 if(conn != null) {
-	    		 
-	    		 Statement stmt  = conn.createStatement();
-	    	     
-		         ResultSet rs    = stmt.executeQuery(sql);
-		       
-		        // loop through the result set
-		        while (rs.next()) {
-		        
-		        	access.setDate(rs.getString("HIS_DATE"));
-		        	access.setHour(rs.getString("HIS_HOUR"));
-		        	access.setPhotho(rs.getBytes("HIS_PHOTO"));
-		        	access.setTypeaccess(rs.getString("HIS_TYPEACCESS"));
-		        	access.setTypesecurity(rs.getString("HIS_TYPESECURITY"));
-		        	owner = ownerService.getOwnerById(rs.getInt("OWN_ID"));
-		        	access.setOwnerEntity(owner);
-		        
-		            accessHistoryService.saveAccessHistory(access);
-		            access = new AccessHistoryEntity() ;
-		            owner = new OwnerEntity();
-		        }
-		        
-		        return true;
- 
-	    	 }else{
-	    		
-	    	    	
-	    		 return false;
-	    	 }
-	        
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
-    
-    
-    public static Optional<byte[]> toBinary(String path) {
-        int len = path.split("\\.").length;
-        String ext = path.split("\\.")[len - 1];
-        try {
-            BufferedImage img = ImageIO.read(new File(path));
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(img, ext, baos);
-            return Optional.of(baos.toByteArray());
-        } catch(IOException e) {
-            return Optional.empty();
-        }
-    }
-
-    
-    
-    
-
+   
 }

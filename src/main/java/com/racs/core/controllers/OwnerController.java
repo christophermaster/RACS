@@ -15,15 +15,23 @@ import com.racs.core.services.ComunityService;
 import com.racs.core.services.OwnerService;
 
 /**
- * Product controller.
+ * Owner controller.
  */
 @Controller
 public class OwnerController {
 
+	/*Services*/
     private OwnerService ownerService;
     private ComunityService comunityService;
+    
+    /*Entity*/
     private OwnerEntity owner;
+    private ComunityEntity comunity;
+    
+    /*Notification*/
     private Notification notification;
+    
+    
     @Autowired
     public void setOwnerService(OwnerService ownerService) {
         this.ownerService = ownerService;
@@ -37,7 +45,7 @@ public class OwnerController {
 
 
 	/**
-     * List all products.
+     * List all Owner.
      *
      * @param model
      * @return
@@ -51,7 +59,7 @@ public class OwnerController {
     }
 
     /**
-     * View a specific product by its id.
+     * View a specific Owner by its id.
      *
      * @param id
      * @param model
@@ -63,58 +71,65 @@ public class OwnerController {
         return "owner/propietarioshow";
     }
 
-    // Afficher le formulaire de modification du Product
+    //Ver el formulario de cambio de producto
     @RequestMapping("/sso/propietario/editar/{id}")
     public String editOwner(@PathVariable Integer id, Model model) {
+    	
+    	/*Se lista todas la communidades*/
     	model.addAttribute("comunidades", comunityService.listAllComunyty());
         model.addAttribute("propietario", ownerService.getOwnerById(id));
         return "owner/propietarioform";
+        
     }
 
     /**
-     * New product.
+     * New Owner.
      *
      * @param model
      * @return
      */
     @RequestMapping("/sso/propietario/nuevo")
     public String newOwner(Model model) {
+    	
+    	/*Se lista todas la communidades*/
     	model.addAttribute("comunidades", comunityService.listAllComunyty());
         model.addAttribute("propietario", new OwnerEntity());
+        
         return "owner/propietarioform";
     }
 
     /**
-     * Save product to database.
+     * Save Owner to database.
      *
-     * @param product
+     * @param Owner
      * @return
      */
     @RequestMapping(value = "/sso/propietario", method = RequestMethod.POST)
     public String saveOwner(OwnerEntity ownerEntity, Model model) {
     	
     	owner = new OwnerEntity();
-    	notification = new Notification();
-    	ComunityEntity comunity = new ComunityEntity();	
+    	comunity = new ComunityEntity();	
     	
+    	notification = new Notification();
     	
     	
     	if(ownerEntity.getId() != null) {
 			
-    		ownerService.saveOwner(ownerEntity);
-			owner = ownerService.getOwnerById(ownerEntity.getId());
-			
-			
+    		owner = ownerService.saveOwner(ownerEntity);
+
 			notification.alert("1", "SUCCESS",
 					"Propietario: ".concat(owner.getNameOwner()).concat(" Actualizado de forma EXITOSA"));
 			
 		}else {
-			comunity = comunityService.getComunityById(ownerEntity.getComunityEntity().getId());
-	    	ownerEntity.setComunityEntity(comunity);
-			ownerService.saveOwner(ownerEntity);
-			owner = ownerService.getOwnerById(ownerEntity.getId());
 			
-			System.out.println(owner.getComunityEntity().getNameComunity());
+			/*Antes de guardar se obtine la comunidad con el id asociado */
+			comunity = comunityService.getComunityById(ownerEntity.getComunityEntity().getId());
+			
+			/*se setea la comunidad en la entidad de propietario*/
+	    	ownerEntity.setComunityEntity(comunity);
+	    	
+	    	/*se procede el guardado*/
+	    	owner = ownerService.saveOwner(ownerEntity);
 			
 			notification.alert("1", "SUCCESS",
 					"Propietario: ".concat(owner.getNameOwner()).concat(" Guardado de forma EXITOSA"));
@@ -127,7 +142,7 @@ public class OwnerController {
     }
 
     /**
-     * Delete product by its id.
+     * Delete Owner by its id.
      *
      * @param id
      * @return
@@ -135,13 +150,17 @@ public class OwnerController {
     @RequestMapping("/sso/propietario/eliminar/{id}")
     public String deleteOwner(@PathVariable Integer id, Model model) {
     	
+    	owner = new OwnerEntity();
     	notification = new Notification();
     	
+    	//Se obtiene el propietario a eliminar 
     	owner = ownerService.getOwnerById(id);
+    	
+    	//Se procede a eliminar la comunidad 
     	ownerService.deleteOwner(id);
     	
 		
-    	
+    	//Se muestra la notificacion  
     	notification.alert("1", "SUCCESS",
 				"El propietario" + owner.getNameOwner() + " se ha eliminado correctamente.");
     	

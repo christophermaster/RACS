@@ -3,10 +3,7 @@ package com.racs.core.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.racs.core.entities.AccessHistoryEntity;
 import com.racs.core.entities.DeviceEntity;
-import com.racs.core.repositories.AccessHistoryRepository;
 import com.racs.core.repositories.DeviceRepository;
 
 

@@ -16,37 +16,51 @@ import com.racs.core.services.OwnerService;
 import com.racs.core.services.VehicleService;
 
 /**
- * Product controller.
+ * Vehicle controller.
  */
 @Controller
 public class VehicleController {
 
+	/*Services*/
     private VehicleService vehicleService;
     private OwnerService ownerService;
+    
+    /*Entity*/
     private VehicleEntity vehicle;
+    private OwnerEntity owner;
+    /*Notification*/
     private Notification notification;
 
     @Autowired
-    public void setVehicleService(VehicleService vehicleService,OwnerService ownerService) {
-        this.vehicleService = vehicleService;
+    public void setVehicleService(VehicleService vehicleService) {
+        
+    	this.vehicleService = vehicleService;
+        
+    }
+    
+    @Autowired
+    public void setOwnerService(OwnerService ownerService) {
+        
         this.ownerService = ownerService;
     }
 
     /**
-     * List all products.
+     * List all Vehicle.
      *
      * @param model
      * @return
      */
     @RequestMapping(value = "/sso/vehiculos", method = RequestMethod.GET)
     public String list(Model model) {
+    	
         model.addAttribute("vehiculos", vehicleService.listAllVehicle());
         System.out.println("Returning vehiculos:");
         return "vehicle/vehiculos";
+        
     }
 
     /**
-     * View a specific product by its id.
+     * View a specific Vehicle by its id.
      *
      * @param id
      * @param model
@@ -58,29 +72,31 @@ public class VehicleController {
         return "vehicle/vehiculoshow";
     }
 
-    // Afficher le formulaire de modification du Product
     @RequestMapping("/sso/vehiculo/editar/{id}")
     public String editVehicle(@PathVariable Integer id, Model model) {
+    	
+    	/*Se obtine la lista de los propietarios*/
     	model.addAttribute("propietarios", ownerService.listAllOwner());
         model.addAttribute("vehiculo", vehicleService.getVehicleById(id));
         return "vehicle/vehiculoform";
     }
 
     /**
-     * New product.
+     * New Vehicle.
      *
      * @param model
      * @return
      */
     @RequestMapping("/sso/vehiculo/nuevo")
     public String newVehicle(Model model) {
+    	/*Se obtine la lista de los propietarios*/
     	model.addAttribute("propietarios", ownerService.listAllOwner());
         model.addAttribute("vehiculo", new VehicleEntity());
         return "vehicle/vehiculoform";
     }
 
     /**
-     * Save product to database.
+     * Save Vehicle to database.
      *
      * @param product
      * @return
@@ -89,16 +105,14 @@ public class VehicleController {
     public String saveVehicle(VehicleEntity vehicleEntity,  Model model) {
     	
     	vehicle = new VehicleEntity();
-    	notification = new Notification();
-    	OwnerEntity owner = new OwnerEntity();
+    	owner = new OwnerEntity();
     	
+    	notification = new Notification();
     	
     	if(vehicleEntity.getId() != null) {
-			
-    		vehicleService.saveVehicle(vehicleEntity);
-    		vehicle = vehicleService.getVehicleById(vehicleEntity.getId());
-			
-			
+			    		
+    		vehicle = vehicleService.saveVehicle(vehicleEntity);
+						
 			notification.alert("1", "SUCCESS",
 					"Vehiculo: ".concat(vehicle.getLecenseplateVehicle()).concat(" Actualizado de forma EXITOSA"));
 			
@@ -106,10 +120,8 @@ public class VehicleController {
 			
 			owner = ownerService.getOwnerById(vehicleEntity.getOwnerEntity().getId());
 			vehicleEntity.setOwnerEntity(owner);
-			
-			vehicleService.saveVehicle(vehicleEntity);
-    		vehicle = vehicleService.getVehicleById(vehicleEntity.getId());
-			
+		
+    		vehicle = vehicleService.saveVehicle(vehicleEntity);
 			
     		notification.alert("1", "SUCCESS",
 					"Vehiculo: ".concat(vehicle.getLecenseplateVehicle()).concat(" Actualizado de forma EXITOSA"));
@@ -121,7 +133,7 @@ public class VehicleController {
     }
 
     /**
-     * Delete product by its id.
+     * Delete Vehicle by its id.
      *
      * @param id
      * @return
@@ -130,7 +142,11 @@ public class VehicleController {
     public String deleteVehicle(@PathVariable Integer id,Model model) {
     	
     	notification = new Notification();
+    	
+    	//Se obtiene el vehiculo a eliminar
     	vehicle = vehicleService.getVehicleById(id);
+    	
+    	//Se procede a eliminar el vehiculo 
     	vehicleService.deleteVehicle(id);
     	
     	notification.alert("1", "SUCCESS",

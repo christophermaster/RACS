@@ -1,10 +1,6 @@
 package com.racs.core.controllers;
 
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,71 +8,58 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.racs.commons.bean.Notification;
 import com.racs.commons.helper.ConnectionFTP;
-import com.racs.commons.helper.ConnectionSQlite;
+import com.racs.commons.helper.DataTransfers;
 import com.racs.core.entities.AccessHistoryEntity;
-import com.racs.core.entities.ComunityEntity;
 import com.racs.core.entities.DeviceEntity;
-import com.racs.core.entities.OwnerEntity;
 import com.racs.core.services.AccessHistoryService;
-import com.racs.core.services.ComunityService;
 import com.racs.core.services.DeviceService;
 import com.racs.core.services.OwnerService;
 
+
 /**
- * Product controller.
+ *  Synchronization controller.
  */
 @Controller
 public class SynchronizationController {
 
+	/*Services*/
     private DeviceService deviceService;
-    private ComunityService comunityService;
     private AccessHistoryService accessHistoryService;
-    private OwnerService ownerService;
-    
+    private OwnerService oService;
+
+    /*Entity*/
+    private DeviceEntity device;
+    private AccessHistoryEntity accessHistoryEntity;
+    /*Notificaciones*/
     private Notification notification;
     
-    private DeviceEntity device;
-    private AccessHistoryEntity access;
-    
     private ConnectionFTP connectionFTP;
-    private ConnectionSQlite connectionSQlite;
+    private DataTransfers dataTransfers;
     
     @Autowired
     public void setDeviceService(DeviceService deviceService) {
         this.deviceService = deviceService;
     }
-
-    @Autowired
-	public void setComunityService(ComunityService comunityService) {
-		this.comunityService = comunityService;
-	}
     
+    @Autowired
+    public void setOwnerService(OwnerService oService) {
+        this.oService = oService;
+    }
+
     @Autowired
     public void setConnectionFTP(ConnectionFTP connectionFTP) {
 		this.connectionFTP = connectionFTP;
 	}
-
-	@Autowired
-	public void setConnectionSQlite(ConnectionSQlite connectionSQlite) {
-		this.connectionSQlite = connectionSQlite;
-	}
-	
-	@Autowired
+    
+    @Autowired
     public void setAccessHistoryService(AccessHistoryService accessHistoryService) {
 		this.accessHistoryService = accessHistoryService;
 	}
-
-	@Autowired
-	public void setOwnerService(OwnerService ownerService) {
-		this.ownerService = ownerService;
-	}
-
     
     /**
-     * List all products.
+     * List all  Synchronization.
      *
      * @param model
      * @return
@@ -89,7 +72,7 @@ public class SynchronizationController {
     }
 
     /**
-     * View a specific product by its id.
+     * View a specific  Synchronization by its id.
      *
      * @param id
      * @param model
@@ -99,74 +82,64 @@ public class SynchronizationController {
     @RequestMapping("/sso/sincronizacion/{id}")
     public String sincronizacion(@PathVariable Integer id, Model model) throws Exception {
     	
+    	/*Se inicaliza la entidad*/
     	device = new DeviceEntity();
     	
-    	device = deviceService.getDeviceById(id);
+    	/*Transferencia de datos*/
     	
-    	String server = device.getIpFTP();
-    	Integer port = Integer.valueOf(device.getPortFTP());
-    	String user = device.getUserFTP();
-    	String pass = device.getPassFTP();
+    	dataTransfers = new DataTransfers();
     	
-    	connectionFTP.connectionDownloadFTP(server, port, user, pass);;
+    	/*Notificaion*/
     	notification = new Notification();
     	
-    	if (selectAll() != false){
-    	    notification.alert("1", "SUCCESS","Sincronizacón Exitosa");
-    	}else {
-    		notification.alert("1", "ERROR","Sincronizacón Fallida");
-    	}
+    	/*verificar la conexion ftp*/
+    	Boolean success = false;
     	
+    	/*se optine los datos de conexion ftp para extraer la base de datos*/
+    	device = deviceService.getDeviceById(id);
+    	
+    	String server = device.getIpFTP(); //ip del ftp
+    	Integer port = Integer.valueOf(device.getPortFTP());//puerto de entra
+    	String user = device.getUserFTP(); //usuario de conexion
+    	String pass = device.getPassFTP(); //contrasela de conexion 
+    	
+    	/*Se hace la conexion */
+    	success = connectionFTP.connectionDownloadFTP(server, port, user, pass);
+    	
+    	/*se verifica si la conexion si fue exitosa o no */
+    	if(success) {
+    		
+    		notification.alert("1", "SUCCESS","Conexion Exitosa al dispositivo");
+    		
+    		/*Verificamos si se  extrajo y se guardo el historico*/
+    		List<AccessHistoryEntity> list = dataTransfers.dataTransfersFromSQLiteToMySQL();
+    		
+    		if (list != null){
+    			
+    			for(int i = 0; i < list.size(); i++ ) {
+    				
+    				accessHistoryEntity = list.get(i);
+    				accessHistoryEntity.setOwnerEntity(oService.getOwnerById(accessHistoryEntity.getIdOwner()));
+    				accessHistoryService.saveAccessHistory(accessHistoryEntity);
+    				accessHistoryEntity = new AccessHistoryEntity();
+    			}
+    			
+        	    notification.alert("1", "SUCCESS","Sincronizacón Exitosa");
+        	    
+        	}else {
+        		
+        		notification.alert("1", "ERROR","Sincronizacón Fallida");
+        		
+        	}
+    		
+    	}else {
+    		notification.alert("1", "ERROR","Conexion Fallida al dispositivo");
+    	}
+    	   	
     	model.addAttribute("notification", notification);
     	model.addAttribute("dispositivos", deviceService.listAllDevice());
-        return "synchronization/sincronizaciones";
-    }
-    
-    public Boolean selectAll() throws Exception{
     	
-        access = new AccessHistoryEntity() ;
-        OwnerEntity owner = new OwnerEntity();
-  
-        String sql = "SELECT * FROM accesshistory"; 
-
-        try {
-        	
-	    	 Connection conn = connectionSQlite.connectSqlite();
-	    	 
-	    	 if(conn != null) {
-	    		 
-	    		 Statement stmt  = conn.createStatement();
-	    	     
-		         ResultSet rs    = stmt.executeQuery(sql);
-		       
-		        // loop through the result set
-		        while (rs.next()) {
-		        
-		        	access.setDate(rs.getString("HIS_DATE"));
-		        	access.setHour(rs.getString("HIS_HOUR"));
-		        	access.setPhotho(rs.getBytes("HIS_PHOTO"));
-		        	access.setTypeaccess(rs.getString("HIS_TYPEACCESS"));
-		        	access.setTypesecurity(rs.getString("HIS_TYPESECURITY"));
-		        	owner = ownerService.getOwnerById(rs.getInt("OWN_ID"));
-		        	access.setOwnerEntity(owner);
-		        
-		            accessHistoryService.saveAccessHistory(access);
-		            access = new AccessHistoryEntity() ;
-		            owner = new OwnerEntity();
-		        }
-		        
-		        return true;
- 
-	    	 }else{
-	    		
-	    	    	
-	    		 return false;
-	    	 }
-	        
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+        return "synchronization/sincronizaciones";
     }
     
     

@@ -16,7 +16,7 @@ import com.racs.core.services.OwnerService;
 import com.racs.core.services.OwnershipService;
 
 /**
- * Product controller.
+ * Ownership controller.
  */
 @Controller
 public class OwnershipController {
@@ -27,14 +27,18 @@ public class OwnershipController {
     private Notification notification;
     
     @Autowired
-    public void setOwnershipService(OwnershipService ownershipService,OwnerService ownerService) {
-        this.ownershipService = ownershipService;
-        this.ownerService = ownerService;
+    public void setOwnershipService(OwnershipService ownershipService) {
+        this.ownershipService = ownershipService; 
+    }
+    
+    @Autowired
+    public void setOwnerService(OwnerService ownerService) {
+    	this.ownerService = ownerService;
         
     }
     
 	/**
-     * List all products.
+     * List all Ownership.
      *
      * @param model
      * @return
@@ -48,7 +52,7 @@ public class OwnershipController {
     }
 
     /**
-     * View a specific product by its id.
+     * View a specific Ownership by its id.
      *
      * @param id
      * @param model
@@ -60,29 +64,34 @@ public class OwnershipController {
         return "ownership/propiedadshow";
     }
 
-    // Afficher le formulaire de modification du Product
+  
     @RequestMapping("/sso/propiedad/editar/{id}")
     public String editOwner(@PathVariable Integer id, Model model) {
+    	/*Se obtine la lista de los propietarios*/
         model.addAttribute("propietarios", ownerService.listAllOwner());
         model.addAttribute("propiedad", ownershipService.getOwnerById(id));
         return "ownership/propiedadform";
+        
     }
 
     /**
-     * New product.
+     * New Ownership.
      *
      * @param model
      * @return
      */
     @RequestMapping("/sso/propiedad/nuevo")
     public String newOwner(Model model) {
+    	
+    	/*Se obtine la lista de los propietarios*/
         model.addAttribute("propietarios", ownerService.listAllOwner());
         model.addAttribute("propiedad", new OwnershipEntity());
         return "ownership/propiedadform";
+        
     }
 
     /**
-     * Save product to database.
+     * Save Ownership to database.
      *
      * @param product
      * @return
@@ -93,26 +102,22 @@ public class OwnershipController {
     	ownership = new OwnershipEntity();
     	notification = new Notification();
     	OwnerEntity owner = new OwnerEntity();
-    	
-    	
-    	
+    	    	
+    	/*verificamos si es una propiedad nueva o no , para mostrar el msj adecuado*/
     	if(ownershipEntity.getId() != null) {
-			
-    		ownershipService.saveOwner(ownershipEntity);
-    		ownership = ownershipService.getOwnerById(ownershipEntity.getId());
-			
+			    		
+    		ownership = ownershipService.saveOwner(ownershipEntity);
 			
 			notification.alert("1", "SUCCESS",
 					"Propiedad: ".concat(ownership.getOwnershipNumber()).concat(" Actualizado de forma EXITOSA"));
 			
 		}else {
 			
+			/*Se optiene la entidad de usuario amtes de guardarla */
 			owner = ownerService.getOwnerById(ownershipEntity.getOwnerEntity().getId());
 			ownershipEntity.setOwnerEntity(owner);
 			
-			ownershipService.saveOwner(ownershipEntity);
-			ownership = ownershipService.getOwnerById(ownershipEntity.getId());
-			
+			ownership = ownershipService.saveOwner(ownershipEntity);
 			
 			notification.alert("1", "SUCCESS",
 					"Propiedad: ".concat(ownership.getOwnershipNumber()).concat(" Guardado de forma EXITOSA"));
@@ -126,7 +131,7 @@ public class OwnershipController {
     }
 
     /**
-     * Delete product by its id.
+     * Delete Ownership by its id.
      *
      * @param id
      * @return
@@ -134,9 +139,13 @@ public class OwnershipController {
     @RequestMapping("/sso/propiedad/eliminar/{id}")
     public String deleteOwner(@PathVariable Integer id, Model model) {
     	
+    	ownership = new OwnershipEntity();
     	notification = new Notification();
     	
+    	//Se obtiene la propiedad a eliminar 
     	ownership = ownershipService.getOwnerById(id);
+    	
+    	//Se procede a eliminar la propiedad 
     	ownershipService.deleteOwner(id);
     	
     	notification.alert("1", "SUCCESS",

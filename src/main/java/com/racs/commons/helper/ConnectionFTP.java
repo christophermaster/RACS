@@ -22,10 +22,12 @@ public class ConnectionFTP  {
 	public ConnectionFTP(){} 
 	
 	
-    public void connectionDownloadFTP(String server,Integer port, String user,String pass) {
-    
-	    try {
-	    	System.out.println("Conexion->>>>>>>>"+server+port+user+pass);
+    public Boolean connectionDownloadFTP(String server,Integer port, String user,String pass) {
+    	
+    	Boolean success = false;
+    	
+    	try {
+	    	
 	        ftpClient.connect(server, port);
 	        ftpClient.login(user, pass);
 	        ftpClient.enterLocalPassiveMode();
@@ -35,7 +37,7 @@ public class ConnectionFTP  {
 	        String remoteFile1 = "/data/data/com.disca.openalprsample/databases/ReconocimientoPlaca.db";
 	        File downloadFile1 = new File("C:\\Users\\ESTACION1\\Desktop\\proyec\\ReconocimientoPlaca.db");
 	        OutputStream outputStream1 = new BufferedOutputStream(new FileOutputStream(downloadFile1));
-	        boolean success = ftpClient.retrieveFile(remoteFile1, outputStream1);
+	        success = ftpClient.retrieveFile(remoteFile1, outputStream1);
 	        outputStream1.close();
 	
 	        if (success) {
@@ -59,6 +61,8 @@ public class ConnectionFTP  {
 	            ex.printStackTrace();
 	        }
 	    }
+	    
+	    return success;
     }
 	
 

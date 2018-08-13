@@ -30,7 +30,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username").passwordParameter("password").permitAll()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login","/vehiculo/**", "/logout/**",
+                .antMatchers("/login","/vehiculo/**","/comunidad/**","/acceso/**", "/logout/**",
                         "/oauth/authorize", "/oauth/token",
                         "/oauth/authorize**", "/oauth/token**",
                         "/oauth/confirm_access", "/user-info", "/permissions", "/sso/logout-sso", "/password/**")

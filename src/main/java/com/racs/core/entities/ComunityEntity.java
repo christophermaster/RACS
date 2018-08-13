@@ -15,9 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -48,8 +45,6 @@ public class ComunityEntity implements Serializable{
 	public ComunityEntity() {
 		
 	}
-	
-	
 
 	public ComunityEntity(Integer id, String nameComunity, String typeComunity) {
 		super();
@@ -57,8 +52,6 @@ public class ComunityEntity implements Serializable{
 		this.nameComunity = nameComunity;
 		this.typeComunity = typeComunity;
 	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -95,7 +88,5 @@ public class ComunityEntity implements Serializable{
 	public void setOwnerlist(List<OwnerEntity> ownerlist) {
 		this.ownerlist = ownerlist;
 	}
-	
-	
 
 }

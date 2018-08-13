@@ -10,18 +10,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.racs.commons.bean.Notification;
 import com.racs.core.entities.ComunityEntity;
-import com.racs.core.entities.User;
 import com.racs.core.services.ComunityService;
 
 /**
- * Product controller.
+ * Comunity controller.
  */
 @Controller
 public class ComunityController {
 
+	/*Services*/
     private ComunityService comunityService;
-    private Notification notification;
+    
+    /*Entity*/
     private ComunityEntity comunity;
+    
+    /*Notification*/
+    private Notification notification;
     
     @Autowired
     public void setComunityService(ComunityService comunityService) {
@@ -29,40 +33,45 @@ public class ComunityController {
     }
 
     /**
-     * List all products.
+     * List all Comunity.
      *
      * @param model
      * @return
      */
     @RequestMapping(value = "/sso/comunidades", method = RequestMethod.GET)
     public String list(Model model) {
+    	
         model.addAttribute("comunidades", comunityService.listAllComunyty());
-        System.out.println("Returning products:" + model);
         return "comunity/comunidades";
+        
     }
 
     /**
-     * View a specific product by its id.
+     * View a specific Comunity by its id.
      *
      * @param id
      * @param model
      * @return
      */
+    
     @RequestMapping("/sso/comunidad/{id}")
     public String showComunity(@PathVariable Integer id, Model model) {
+    	
         model.addAttribute("comunidad", comunityService.getComunityById(id));
         return "comunity/comunidadshow";
+        
     }
 
-    // Afficher le formulaire de modification du Product
+   
     @RequestMapping("/sso/comunidad/editar/{id}")
     public String editComunity(@PathVariable Integer id, Model model) {
+    	
         model.addAttribute("comunidad", comunityService.getComunityById(id));
         return "comunity/comunidadform";
     }
 
     /**
-     * New product.
+     * New Comunity.
      *
      * @param model
      * @return
@@ -74,7 +83,7 @@ public class ComunityController {
     }
 
     /**
-     * Save product to database.
+     * Save Comunity to database.
      *
      * @param product
      * @return
@@ -82,24 +91,21 @@ public class ComunityController {
     @RequestMapping(value = "/sso/comunidad", method = RequestMethod.POST)
     public String saveComunity(ComunityEntity comunityEntity,  Model model) {
     	
-		comunity = new ComunityEntity();
+    	comunity = new ComunityEntity();
 		notification = new Notification();
-
+		
+		//verificamos si es una comunidad nueva o no , para mostrar el msj adecuado
 		if(comunityEntity.getId() != null) {
 			
-			comunityService.saveComunity(comunityEntity);
-			comunity = comunityService.getComunityById(comunityEntity.getId());
-			
+			comunity = comunityService.saveComunity(comunityEntity);
 			
 			notification.alert("1", "SUCCESS",
 					"Comunidad: ".concat(comunity.getNameComunity()).concat(" Actualizado de forma EXITOSA"));
 			
 		}else {
 			
-			comunityService.saveComunity(comunityEntity);
-			comunity = comunityService.getComunityById(comunityEntity.getId());
-			
-			
+			comunity = comunityService.saveComunity(comunityEntity);
+
 			notification.alert("1", "SUCCESS",
 					"Comunidad: ".concat(comunity.getNameComunity()).concat(" Guardado de forma EXITOSA"));
 			
@@ -112,7 +118,7 @@ public class ComunityController {
     }
 
     /**
-     * Delete product by its id.
+     * Delete Comunity by its id.
      *
      * @param id
      * @return
@@ -120,11 +126,17 @@ public class ComunityController {
     @RequestMapping("/sso/comunidad/eliminar/{id}")
     public String deleteComunity(@PathVariable Integer id,Model model) {
     	
-    	comunity = comunityService.getComunityById(id);
-    	comunityService.deleteComunity(id);
-    	
+    	comunity = new ComunityEntity();
     	notification = new Notification();
     	
+    	//Se obtiene la comunidad a eliminar 
+    	comunity = comunityService.getComunityById(id);
+    	
+    	//Se procede a eliminar la comunidad 
+    	comunityService.deleteComunity(id);
+    	
+    	
+    	//Se muestra la notificacion  
     	notification.alert("1", "SUCCESS",
 				"La Comunidad " + comunity.getNameComunity() + " se ha eliminado correctamente.");
     	

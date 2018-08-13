@@ -1,17 +1,10 @@
 package com.racs.core.services;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.racs.core.entities.User;
 import com.racs.core.entities.VehicleEntity;
 import com.racs.core.repositories.VehicleRepository;
 
@@ -19,7 +12,7 @@ import com.racs.core.repositories.VehicleRepository;
 public class VehicleServiceImpl implements VehicleService {
 
 	private VehicleRepository vehicleRepository;
-	private List<VehicleEntity> vehicle;
+
 
 	@PersistenceContext
 	private EntityManager em;
@@ -51,19 +44,6 @@ public class VehicleServiceImpl implements VehicleService {
 	public void deleteVehicle(Integer id) {
 		vehicleRepository.delete(id);
 
-	}
-
-	@Override
-	public List<VehicleEntity> findAllVehicle() {
-		vehicle = new ArrayList<VehicleEntity>();
-		try {
-			TypedQuery<VehicleEntity> query = em.createQuery("SELECT v FROM VehicleEntity v", VehicleEntity.class);
-
-			vehicle = query.getResultList();
-		} catch (Exception e) {
-			System.err.println("Credenciales invalidas: ");
-		}
-		return vehicle;
 	}
 
 }

@@ -65,10 +65,9 @@
 						                <td align="center" th:if = "${dispositivo.stateDevice} == true"  th:text="Activo">Estado</td>
 					                	<td align="center" th:if = "${dispositivo.stateDevice} == false"  th:text="Desactivado">Estado</td>
 					                
-						                <td  align="center"><a th:href="@{/sso/sincronizacion/} + ${dispositivo.id}" id="btnCargar" name="btnCargar" type="submit"><span
-											
-														class="glyphicon glyphicon-arrow-down ico-colorlist"
-														data-toggle="tooltip" title="Sincronizar"></span></a></td>
+						                <td  align="center"><a th:href="@{/sso/sincronizacion/} + ${dispositivo.id}" id="btnCargar" name="btnCargar" type="submit">
+						                <span class="glyphicon glyphicon-arrow-down ico-colorlist"
+											data-toggle="tooltip" title="Sincronizar"></span></a></td>
 						            </tr>
 								
 								</tbody>

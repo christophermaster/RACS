@@ -12,52 +12,53 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
 @Table(name = "accesshistory")
-public class AccessHistoryEntity implements Serializable{
-	
+public class AccessHistoryEntity implements Serializable {
+
 	private static final long serialVersionUID = -5703889625848068724L;
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO )
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
+
+	@Transient
+	private Integer idOwner;
+
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="OWN_ID")
+	@JoinColumn(name = "OWN_ID")
 	@JsonIgnore
-    private OwnerEntity ownerEntity;
-	
+	private OwnerEntity ownerEntity;
+
 	@Column(name = "date")
 	private String date;
-	
+
 	@Column(name = "hour")
 	private String hour;
 
-
-	@Column(name = "typeaccess", length=30)
+	@Column(name = "typeaccess", length = 30)
 	private String typeaccess;
-	
-	@Column(name = "typesecurity", length=30)
+
+	@Column(name = "typesecurity", length = 30)
 	private String typesecurity;
-	
+
 	@Lob
 	@Column(name = "photho")
 	private byte[] photho;
-	
+
 	private String ruta;
 
 	public AccessHistoryEntity() {
-		
+
 	}
 
-	public AccessHistoryEntity(Integer id, OwnerEntity ownerEntity, String date, String hour, String typeaccess, String typesecurity
-			) {
+	public AccessHistoryEntity(Integer id, OwnerEntity ownerEntity, String date, String hour, String typeaccess,
+			String typesecurity) {
 		super();
 		this.id = id;
 		this.ownerEntity = ownerEntity;
@@ -65,7 +66,7 @@ public class AccessHistoryEntity implements Serializable{
 		this.hour = hour;
 		this.typeaccess = typeaccess;
 		this.typesecurity = typesecurity;
-		
+
 	}
 
 	public Integer getId() {
@@ -132,9 +133,12 @@ public class AccessHistoryEntity implements Serializable{
 		this.ruta = ruta;
 	}
 
-	
+	public Integer getIdOwner() {
+		return idOwner;
+	}
 
-	
+	public void setIdOwner(Integer idOwner) {
+		this.idOwner = idOwner;
+	}
 
-	
 }
