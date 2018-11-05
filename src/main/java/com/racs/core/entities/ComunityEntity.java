@@ -25,7 +25,7 @@ public class ComunityEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO )
-	@Column(name = "COM_ID", length=30)
+	@Column(name = "COM_ID")
 	private Integer id;
 	
 	@Column(name = "COM_NAME", length=30)
@@ -41,6 +41,8 @@ public class ComunityEntity implements Serializable{
 	@OneToMany(mappedBy = "comunityEntity", cascade = CascadeType.ALL)
 	private List<DeviceEntity> deviceEntity = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "comunityEntity", cascade = CascadeType.ALL)
+	private List<AccessHistoryEntity> accessHistoryEntity = new ArrayList<>();
 
 	public ComunityEntity() {
 		
@@ -88,5 +90,23 @@ public class ComunityEntity implements Serializable{
 	public void setOwnerlist(List<OwnerEntity> ownerlist) {
 		this.ownerlist = ownerlist;
 	}
+
+	public List<DeviceEntity> getDeviceEntity() {
+		return deviceEntity;
+	}
+
+	public void setDeviceEntity(List<DeviceEntity> deviceEntity) {
+		this.deviceEntity = deviceEntity;
+	}
+
+	public List<AccessHistoryEntity> getAccessHistoryEntity() {
+		return accessHistoryEntity;
+	}
+
+	public void setAccessHistoryEntity(List<AccessHistoryEntity> accessHistoryEntity) {
+		this.accessHistoryEntity = accessHistoryEntity;
+	}
+	
+
 
 }

@@ -20,7 +20,7 @@ public class DataTransfers {
 
 
 	
-	public List<AccessHistoryEntity> dataTransfersFromSQLiteToMySQL() {
+	public List<AccessHistoryEntity> dataTransfersFromSQLiteToMySQL(Integer id) {
 		
 		
 	    access = new AccessHistoryEntity() ;
@@ -30,7 +30,7 @@ public class DataTransfers {
         connectionSQlite = new ConnectionSQlite();
         
         /*Seleccionar el historico de una comunidad*/
-        String sql = "SELECT * FROM accesshistory"; 
+        String sql = "SELECT * FROM accesshistory WHERE COM_ID = " + id; 
 
         try {
         		/*hago la conexion a la Base de datos*/

@@ -45,6 +45,16 @@ public class DeviceEntity {
 	@Column(name ="DEV_STATE")
 	private Boolean stateDevice;
 	
+	@Column(name ="DEV_VERSION_APP", length=15)
+	private String versionAPP;
+	
+	@Column(name ="DEV_TOTAL_MEMORY", length=15)
+	private String total;
+	
+	@Column(name ="DEV_BUSY_MEMORY", length=15)
+	private String busy;
+	
+	
 	public DeviceEntity() {
 
 	}
@@ -112,6 +122,31 @@ public class DeviceEntity {
 	public void setStateDevice(Boolean stateDevice) {
 		this.stateDevice = stateDevice;
 	}
+
+	public String getVersionAPP() {
+		return versionAPP;
+	}
+
+	public void setVersionAPP(String versionAPP) {
+		this.versionAPP = versionAPP;
+	}
+
+	public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
+	}
+
+	public String getBusy() {
+		return busy;
+	}
+
+	public void setBusy(String busy) {
+		this.busy = busy;
+	}
+	
 	
 	
 	

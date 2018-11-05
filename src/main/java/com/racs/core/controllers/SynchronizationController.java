@@ -112,7 +112,7 @@ public class SynchronizationController {
     		notification.alert("1", "SUCCESS","Conexion Exitosa al dispositivo");
     		
     		/*Verificamos si se  extrajo y se guardo el historico*/
-    		List<AccessHistoryEntity> list = dataTransfers.dataTransfersFromSQLiteToMySQL();
+    		List<AccessHistoryEntity> list = dataTransfers.dataTransfersFromSQLiteToMySQL(device.getComunityEntity().getId());
     		
     		if (list != null){
     			

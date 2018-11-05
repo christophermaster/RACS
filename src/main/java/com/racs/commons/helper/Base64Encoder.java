@@ -11,6 +11,9 @@ import javax.imageio.ImageIO;
 
 public class Base64Encoder {
 	
+	
+	
+	
 	public static String imageToBase64(byte[] data) {
 		
 		String path = "C:\\Users\\ESTACION1\\Desktop\\proyec\\RACSystem\\src\\main\\resources\\static\\images\\output.jpg";
@@ -43,6 +46,21 @@ public class Base64Encoder {
             return Optional.empty();
         }
     }
+   
+   public static void remove() {
+		String path = "C:\\Users\\ESTACION1\\Desktop\\proyec\\RACSystem\\src\\main\\resources\\static\\images\\output.jpg";
+		File file = new File(path);
+        
+        if(file.delete())
+        {
+            System.out.println("File deleted successfully");
+        }
+        else
+        {
+            System.out.println("Failed to delete the file");
+        }
+	   
+   }
 
 
 }

@@ -36,8 +36,8 @@
 							 	<form class="form-horizontal">
 									 <div class = "row">
 									 	<div class="img"  >
-											<img src="/RacsWeb/src/main/resources/static/images/output.jpg"
-											 class ="img" width="300" th:src="@{/images/output.jpg}"/>
+											<img th:src="*{'data:image/jpeg;base64,'+historial.ruta}"
+											 class ="img" width="300" alt=""/>
 									     </div>
 									 </div>
 								</form>

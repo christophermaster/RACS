@@ -11,7 +11,8 @@ public interface AccessHistoryService {
 	AccessHistoryEntity saveAccessHistory(AccessHistoryEntity accessHistory);
 	
 	void deleteAccessHistory(Integer id);
-
+	
+	AccessHistoryEntity findByCode(Integer id);
 	
 
 }

@@ -50,7 +50,10 @@
 						                <td align="center" ><b>IP</b></td>  
 						                <td align="center" ><b>Puerto</b></td> 
 						                <td align="center" ><b>Comunidad</b></td>   
-						                <td align="center" ><b>Estado</b></td> 
+						                <td align="center" ><b>Estado</b></td>
+						                <td align="center" ><b>Memoria Total</b></td> 
+						                <td align="center" ><b>Memoria Ocupada</b></td>
+						                <td align="center" ><b>Version APP</b></td> 
 						                <td align="center" ><b>Ver</b></td>
 						                <td align="center" ><b>Editar</b></td>
 						                <td align="center" ><b>Eliminar</b></td>
@@ -74,7 +77,10 @@
 						                <td  align="center" th:text="${dispositivo.comunityEntity.nameComunity}">Comunidad</td>
 						                <td align="center" th:if = "${dispositivo.stateDevice} == true"  th:text="Activo">Estado</td>
 					                	<td align="center" th:if = "${dispositivo.stateDevice} == false"  th:text="Desactivado">Estado</td>
-					                
+						                <td align="center" th:text="${dispositivo.total}">Memoria Total</td>
+						                <td align="center" th:text="${dispositivo.busy}">Memoria Ocupada</td>
+						                <td align="center" th:text="${dispositivo.versionAPP}">Version APP</td>
+						                
 						                <td  align="center"><a th:href="@{/sso/dispositivo/} + ${dispositivo.id}"><span
 											
 														class="glyphicon glyphicon-eye-open ico-colorlist"

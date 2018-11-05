@@ -29,12 +29,17 @@ public class AccessHistoryEntity implements Serializable {
 
 	@Transient
 	private Integer idOwner;
-
+	
+	@Transient
+	private Integer com_id;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "OWN_ID")
 	@JsonIgnore
 	private OwnerEntity ownerEntity;
 
+	
+	
 	@Column(name = "date")
 	private String date;
 
@@ -51,7 +56,15 @@ public class AccessHistoryEntity implements Serializable {
 	@Column(name = "photho")
 	private byte[] photho;
 
+	@Column(name = "code")
+	private Integer code;
+	
 	private String ruta;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="COM_ID")
+	@JsonIgnore
+	private ComunityEntity comunityEntity;
 
 	public AccessHistoryEntity() {
 
@@ -140,5 +153,32 @@ public class AccessHistoryEntity implements Serializable {
 	public void setIdOwner(Integer idOwner) {
 		this.idOwner = idOwner;
 	}
+
+	public Integer getCode() {
+		return code;
+	}
+
+	public void setCode(Integer code) {
+		this.code = code;
+	}
+
+	public ComunityEntity getComunityEntity() {
+		return comunityEntity;
+	}
+
+	public void setComunityEntity(ComunityEntity comunityEntity) {
+		this.comunityEntity = comunityEntity;
+	}
+
+	public Integer getCom_id() {
+		return com_id;
+	}
+
+	public void setCom_id(Integer com_id) {
+		this.com_id = com_id;
+	}
+
+	
+	
 
 }

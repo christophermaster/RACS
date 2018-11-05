@@ -1,5 +1,6 @@
 package com.racs.core.controllers;
 
+import java.util.Base64;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,7 +51,7 @@ public class AccessHistoryController {
      */
     @RequestMapping(value = "/sso/historicos", method = RequestMethod.GET)
     public String list(Model model) {
-    	
+    
         model.addAttribute("historicos", accessHistoryService.listAllAccessHistory());
         return "history/historicos";
     }
@@ -68,13 +69,13 @@ public class AccessHistoryController {
     public String showAccessHistory(@PathVariable Integer id, Model model) {
 
     	access = new AccessHistoryEntity();
-
+    	
     	/*obtenemos el acceso por le id */
     	access = accessHistoryService.getAccessHistoryById(id);
     	
-    	/*se codifica la imagen para que pueda ser visible y se guarda el path de donde fue decodificada la imagen */
-    	access.setRuta(Base64Encoder.imageToBase64(access.getPhotho()));
-      
+    	/*se codifica la imagen para que pueda ser visible */
+//    	access.setRuta(Base64Encoder.imageToBase64(access.getPhotho()));
+    	access.setRuta(new String(Base64.getEncoder().encode(access.getPhotho())));
         model.addAttribute("historial",access);
         
         return "history/historialshow";
